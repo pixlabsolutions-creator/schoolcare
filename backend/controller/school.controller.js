@@ -43,7 +43,7 @@ exports.createSchool = async (req, res) => {
 
     const newSchool = await School.create({
       schoolId: newSchoolId,
-      image: result.secure_url,
+      image: result ? result.secure_url : "",
       school,
       address,
       joinedOn,

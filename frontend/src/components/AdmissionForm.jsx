@@ -16,7 +16,6 @@ const AdmissionForm = () => {
     name: "",
     roll: "",
     classId: "",
-    studentId: "",
     dob: "",
     address: "",
     phone: "",
@@ -56,7 +55,7 @@ const AdmissionForm = () => {
   /* ===== Submit ===== */
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+
     try {
       setLoading(true);
 
@@ -83,7 +82,6 @@ const AdmissionForm = () => {
         name: "",
         roll: "",
         classId: "",
-        studentId: "",
         dob: "",
         address: "",
         phone: "",
@@ -184,13 +182,6 @@ const AdmissionForm = () => {
             label="Father name"
             name="fathername"
             value={formData.fathername}
-            onChange={handleChange}
-          />
-
-          <Input
-            label="Student ID"
-            name="studentId"
-            value={formData.studentId}
             onChange={handleChange}
           />
 

@@ -18,7 +18,8 @@ const getNextUserId = async () => {
 
 const createUser = async (req, res) => {
   try {
-    const { username, userRole, password, phone, school, address } = req.body;
+    const { username, userRole, password, phone, school, address, joinOn } =
+      req.body;
     if (!username || !password || !userRole || !phone || !school || !address) {
       return res.status(400).send("Missing required fields");
     }
@@ -32,6 +33,7 @@ const createUser = async (req, res) => {
       phone,
       school,
       address,
+      joinOn,
     });
 
     const user = await newUser.save();

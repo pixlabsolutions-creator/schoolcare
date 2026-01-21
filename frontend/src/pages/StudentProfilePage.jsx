@@ -57,7 +57,7 @@ const StudentProfilePage = () => {
                 Date Of Birth
               </legend>
               <p className="label text-textc1-700 text-[14px]">
-                {new Date().toLocaleDateString()}
+                {new Date(user.dob).toLocaleDateString()}
               </p>
             </fieldset>
           </div>

@@ -11,14 +11,38 @@ import {
   MessageCircleMore,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+
 import ProfileIcon from "../assets/profileshadow.png";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "../assets/icon.png";
 import { Link } from "react-router-dom";
+import { useClass } from "../contexts/classContext";
+import { useSchool } from "../contexts/SchoolContext";
+import { useStudent } from "../contexts/studentContext";
+
 const TeacherProfile = () => {
-  const { user, logout } = useAuth();
-  const [notificatinToggle, setNotificatinToggle] = useState(false);
+  const { user, logout, fetchTeachersBySchool, teachers } = useAuth();
+  const { fetchClassesBySchool, classesBySchool } = useClass();
+  const { schools } = useSchool();
+  const { fetchStudentBySchool, studentsBySchool } = useStudent();
+  useEffect(() => {
+    if (!user?.school) return;
+    fetchClassesBySchool(user?.school);
+  }, [user?.school]);
+
+  useEffect(() => {
+    if (!user?.school) return;
+    fetchTeachersBySchool(user?.school);
+  }, [user?.school]);
+
+  useEffect(() => {
+    if (!user?.school) return;
+    fetchStudentBySchool(user?.school);
+  }, [user?.school]);
+
+  const findSchool = schools.filter((school) => user.school === school.school);
+
   return (
     <div className="space-y-4 lg:space-y-20 lg:bg-white rounded-2xl pb-20 min-h-screen">
       {/* ===== Header ===== */}
@@ -83,7 +107,7 @@ const TeacherProfile = () => {
                 Total Class
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {user.userId}
+                {classesBySchool.length}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -91,7 +115,7 @@ const TeacherProfile = () => {
                 Joined on
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {new Date().toLocaleDateString()}
+                {new Date(user.joinOn).toLocaleDateString()}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -107,7 +131,7 @@ const TeacherProfile = () => {
                 Total Teacher
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                10
+                {teachers.length}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -115,7 +139,7 @@ const TeacherProfile = () => {
                 Total Students
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                344
+                {studentsBySchool.length}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -123,7 +147,7 @@ const TeacherProfile = () => {
                 Head Master Name
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                Md Hanif
+                {findSchool[0]?.headMasterName}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -131,7 +155,7 @@ const TeacherProfile = () => {
                 School ID
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                344
+                {findSchool[0]?.schoolId}
               </p>
             </fieldset>
           </div>

@@ -12,6 +12,7 @@ const TeacherAddModal = ({ setUsers, setOpenModal }) => {
     password: "",
     phone: "",
     address: "",
+    joinOn: "",
   });
   const { schools } = useSchool();
   const [loading, setLoading] = useState(false);
@@ -70,6 +71,7 @@ const TeacherAddModal = ({ setUsers, setOpenModal }) => {
         password: "",
         phone: "",
         address: "",
+        joinOn: "",
       });
 
       setOpenModal && setOpenModal(false);
@@ -144,6 +146,14 @@ const TeacherAddModal = ({ setUsers, setOpenModal }) => {
           value={formData.address}
           onChange={handleChange}
           placeholder="Address"
+          className="w-full border rounded-lg px-3 py-2"
+        />
+        <input
+          type="date"
+          name="joinOn"
+          value={formData.joinOn}
+          onChange={handleChange}
+          placeholder="Join On"
           className="w-full border rounded-lg px-3 py-2"
         />
 

@@ -16,6 +16,10 @@ const studentSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    dob: {
+      type: Date,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -27,7 +31,7 @@ const studentSchema = new mongoose.Schema(
       trim: true,
     },
     roll: {
-      type: String,
+      type: Number,
       required: true,
     },
     classId: {
@@ -54,7 +58,7 @@ const studentSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 studentSchema.pre("save", async function (next) {

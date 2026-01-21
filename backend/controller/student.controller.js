@@ -20,13 +20,13 @@ const getNextStudentId = async () => {
 
 const createStudent = async (req, res) => {
   try {
-    const { name, fathername, classId, password, phone, school, teacher } =
+    const { name, fathername, classId, password, phone, school, teacher, dob } =
       req.body;
     if (!name || !fathername || !classId || !password || !school || !teacher) {
       return res.status(400).send("Missing required fields");
     }
-
-    const isExistingUser = await Student.findOne({ studentId });
+    const newStudentId = await getNextStudentId();
+    const isExistingUser = await Student.findOne({ studentId: newStudentId });
 
     if (isExistingUser) {
       return res.status(409).send("Username already exists");
@@ -36,15 +36,16 @@ const createStudent = async (req, res) => {
       .sort({ roll: -1 })
       .exec();
 
-    const nextRoll = lastStudent && lastStudent.roll ? lastStudent.roll + 1 : 1;
-    const newStudentId = await getNextStudentId();
+    const nextRoll =
+      lastStudent && lastStudent.roll ? Number(lastStudent.roll) + 1 : 1;
+
     const result = await cloudinary.uploader.upload(
       `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
       { folder: "student" },
     );
 
     const newStudent = new Student({
-      image: result.secure_url,
+      image: result ? result.secure_url : "",
       studentId: newStudentId,
       name,
       fathername,
@@ -54,6 +55,7 @@ const createStudent = async (req, res) => {
       phone,
       school,
       teacher,
+      dob,
     });
 
     const student = await newStudent.save();

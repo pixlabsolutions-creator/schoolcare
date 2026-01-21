@@ -35,6 +35,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  joinOn: {
+    type: Date,
+    required: true,
+  },
 });
 
 userSchema.pre("save", async function (next) {
