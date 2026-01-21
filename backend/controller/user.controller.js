@@ -7,10 +7,10 @@ const getNextUserId = async () => {
   let nextId;
 
   if (!lastUser || !lastUser.userId) {
-    nextId = "0001";
+    nextId = "321546";
   } else {
     const idNum = Number(lastUser.userId);
-    nextId = String(idNum + 1).padStart(4, "0");
+    nextId = String(idNum + 1);
   }
 
   return nextId;

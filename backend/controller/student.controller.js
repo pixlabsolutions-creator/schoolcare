@@ -3,28 +3,26 @@ const Student = require("../models/student.model");
 
 const BlackListToken = require("../models/blackListTokenModel");
 
+const getNextStudentId = async () => {
+  const lastStudent = await Student.findOne().sort({ studentId: -1 }).exec();
+
+  let nextId;
+
+  if (!lastStudent || !lastStudent.studentId) {
+    nextId = "263815";
+  } else {
+    const idNum = Number(lastStudent.studentId);
+    nextId = String(idNum + 1);
+  }
+
+  return nextId;
+};
+
 const createStudent = async (req, res) => {
   try {
-    const {
-      studentId,
-      name,
-      fathername,
-      classId,
-      password,
-      phone,
-      school,
-      teacher,
-    } = req.body;
-
-    if (
-      !studentId ||
-      !name ||
-      !fathername ||
-      !classId ||
-      !password ||
-      !school ||
-      !teacher
-    ) {
+    const { name, fathername, classId, password, phone, school, teacher } =
+      req.body;
+    if (!name || !fathername || !classId || !password || !school || !teacher) {
       return res.status(400).send("Missing required fields");
     }
 
@@ -39,7 +37,7 @@ const createStudent = async (req, res) => {
       .exec();
 
     const nextRoll = lastStudent && lastStudent.roll ? lastStudent.roll + 1 : 1;
-
+    const newStudentId = await getNextStudentId();
     const result = await cloudinary.uploader.upload(
       `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
       { folder: "student" },
@@ -47,7 +45,7 @@ const createStudent = async (req, res) => {
 
     const newStudent = new Student({
       image: result.secure_url,
-      studentId,
+      studentId: newStudentId,
       name,
       fathername,
       roll: nextRoll,
