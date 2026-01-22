@@ -66,7 +66,7 @@ const TeacherDashboard = () => {
           Popular news
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[10px] lg:gap-4">
-          <div className="col-span-1 flex flex-row items-center md:flex-col space-x-4 md:space-x-0 md:space-y-4 text-sm text-gray-600 border border-gray-100 p-[10px] rounded-[12px]">
+          <div className="col-span-1 flex flex-row items-center md:flex-col space-x-4 md:space-x-0 md:space-y-4 text-sm text-gray-600 bg-white p-[10px] rounded-[12px]">
             <img
               src="https://picsum.photos/300/200.jpg"
               className="w-[76px] lg:w-full lg:h-auto h-[76px] rounded-[10px]"
@@ -82,7 +82,7 @@ const TeacherDashboard = () => {
               <span className="hidden lg:block text-primary-700 text-[14px]">
                 Read More...
               </span>
-              <div className="flex flex-row items-center justify-start space-x-8 lg:space-x-0 text-[14px] lg:justify-evenly border border-gray-100 lg:py-2 lg:rounded-[12px]">
+              <div className="flex flex-row items-center justify-start space-x-8 lg:space-x-0 text-[14px] lg:justify-evenly bg-white lg:py-2 lg:rounded-[12px]">
                 <span className="flex flex-row space-x-1">
                   <Eye size={18} /> <span>32</span>
                 </span>
@@ -92,7 +92,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-1 flex flex-row items-center md:flex-col space-x-4 md:space-x-0 md:space-y-4 text-sm text-gray-600 border border-gray-100 p-[10px] rounded-[12px]">
+          <div className="col-span-1 flex flex-row items-center md:flex-col space-x-4 md:space-x-0 md:space-y-4 text-sm text-gray-600 bg-white p-[10px] rounded-[12px]">
             <img
               src="https://picsum.photos/300/200.jpg"
               className="w-[76px] lg:w-full lg:h-auto h-[76px] rounded-[10px]"
@@ -108,7 +108,7 @@ const TeacherDashboard = () => {
               <span className="hidden lg:block text-primary-700 text-[14px]">
                 Read More...
               </span>
-              <div className="flex flex-row items-center justify-start space-x-8 lg:space-x-0 text-[14px] lg:justify-evenly border border-gray-100 lg:py-2 lg:rounded-[12px]">
+              <div className="flex flex-row items-center justify-start space-x-8 lg:space-x-0 text-[14px] lg:justify-evenly bg-white lg:py-2 lg:rounded-[12px]">
                 <span className="flex flex-row space-x-1">
                   <Eye size={18} /> <span>32</span>
                 </span>
@@ -118,7 +118,7 @@ const TeacherDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-1 flex flex-row items-center md:flex-col space-x-4 md:space-x-0 md:space-y-4 text-sm text-gray-600 border border-gray-100 p-[10px] rounded-[12px]">
+          <div className="col-span-1 flex flex-row items-center md:flex-col space-x-4 md:space-x-0 md:space-y-4 text-sm text-gray-600 bg-white p-[10px] rounded-[12px]">
             <img
               src="https://picsum.photos/300/200.jpg"
               className="w-[76px] lg:w-full lg:h-auto h-[76px] rounded-[10px]"
@@ -134,7 +134,7 @@ const TeacherDashboard = () => {
               <span className="hidden lg:block text-primary-700 text-[14px]">
                 Read More...
               </span>
-              <div className="flex flex-row items-center justify-start space-x-8 lg:space-x-0 text-[14px] lg:justify-evenly border border-gray-100 lg:py-2 lg:rounded-[12px]">
+              <div className="flex flex-row items-center justify-start space-x-8 lg:space-x-0 text-[14px] lg:justify-evenly bg-white lg:py-2 lg:rounded-[12px]">
                 <span className="flex flex-row space-x-1">
                   <Eye size={18} /> <span>32</span>
                 </span>

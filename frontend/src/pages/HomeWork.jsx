@@ -45,7 +45,7 @@ const HomeWork = () => {
             <span>Add Class</span>
           </button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4 lg:bg-white p-4 lg:p-6 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4 lg:bg-white  lg:p-6 ">
           {classes.map((classItem) => (
             <div
               key={classItem._id}

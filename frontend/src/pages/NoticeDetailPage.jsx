@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { MoveLeft, EyeOff, Trash2, Eye } from "lucide-react";
+import { MoveLeft, EyeOff, Trash2, Eye, Heart } from "lucide-react";
 import Notice from "../assets/notice2.png";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAnouncement } from "../contexts/AnoucementContext";
@@ -50,13 +50,16 @@ const NoticeDetailPage = () => {
           </div>
 
           <div className="grid grid-cols-2 border border-gray-100 p-3 rounded-2xl font-kalpurush ">
-            <span className="col-span-1 text-center flex items-center justify-center">
-              <Eye size={17} />{" "}
-              <span className="pl-1">{anouncementsById["like"]}</span>
+            <span className="col-span-1 text-center flex items-center justify-center space-x-1">
+              <Eye size={20} />{" "}
+              <span className=" text-[20px]">{anouncementsById["like"]}</span>
             </span>
-            <span className="col-span-1 flex items-center justify-center">
-              Comment {anouncementsById["conmment"]?.length}
-            </span>
+            <div className="flex flex-row items-center justify-center space-x-1">
+              <Heart size={20} />
+              <span className="col-span-1 flex items-center justify-center text-[20px]">
+                {anouncementsById["conmment"]?.length}
+              </span>
+            </div>
           </div>
         </div>
       </div>

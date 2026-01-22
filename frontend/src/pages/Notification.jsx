@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, Wallet, Info, LogOut } from "lucide-react";
+import { ArrowLeft, Bell, Wallet, Info, LogOut, MoveLeft } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import Weather from "../assets/weather.png";
 const Notification = () => {
@@ -7,11 +7,9 @@ const Notification = () => {
   return (
     <div className="space-y-2 lg:bg-white p-4">
       {/* ===== Header ===== */}
-      <div className="flex items-center lg:p-6 space-x-4">
-        <ArrowLeft className="text-gray-600" />
-        <h1 className="text-lg lg:text-2xl font-semibold pt-2 lg:pt-0">
-          Notification
-        </h1>
+      <div className="flex flex-row  items-center lg:p-6 space-x-2">
+        <MoveLeft className="text-gray-600" />
+        <h1 className="text-lg lg:text-2xl font-semibold">Notification</h1>
       </div>
       {/* =================Notification Card======================= */}
       <div className="grid grid-cols-1 lg:px-6">

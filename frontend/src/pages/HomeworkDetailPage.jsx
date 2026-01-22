@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, MessageCircle, MoveLeft } from "lucide-react";
+import { ArrowLeft, Eye, Heart, MessageCircle, MoveLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useHomework } from "../contexts/HomeworkContext";
 import { useEffect } from "react";
@@ -27,11 +27,11 @@ const TeacherHomeworkDetailPage = () => {
         <div className="lg:p-4">
           {/* Image Section */}
           <div className="relative ">
-            <div className="flex absolute top-6 text-white lg:hidden items-center px-4  lg:py-3 ">
+            <div className="flex absolute top-6 text-white lg:hidden items-center px-4  lg:py-3 space-x-2">
               <button onClick={() => navigate(-1)}>
                 <MoveLeft size={22} />
               </button>
-              <h2 className="text-lg lg:text-xl font-medium">
+              <h2 className="text-[17px] lg:text-xl font-medium">
                 Homework details
               </h2>
             </div>
@@ -78,8 +78,8 @@ const TeacherHomeworkDetailPage = () => {
                 </div>
 
                 <div className="col-span-1 flex flex-row items-center justify-center space-x-2">
-                  <MessageCircle size={14} />
-                  <span className="text-[14px]">54 Comment</span>
+                  <Heart size={14} />
+                  <span className="text-[14px]">54</span>
                 </div>
               </div>
             </div>

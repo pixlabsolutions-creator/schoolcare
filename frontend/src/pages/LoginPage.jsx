@@ -68,7 +68,7 @@ const LoginPage = () => {
               <div className="flex justify-start w-3/5">
                 <img src={SplashIcon} alt="" />
               </div>
-              <h1 className="text-[10px]  text-textc3-700">
+              <h1 className="text-[14px]  text-textc3-700">
                 Do not share your password with anyone
               </h1>
             </div>

@@ -1,4 +1,12 @@
-import { ArrowLeft, Eye, MessageCircle, Send, Download } from "lucide-react";
+import {
+  ArrowLeft,
+  Eye,
+  MessageCircle,
+  Send,
+  Download,
+  MoveLeft,
+  Heart,
+} from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiSolidEditAlt } from "react-icons/bi";
 import HomeWorkSubjectCard from "./HomeWorkSubjectCard";
@@ -23,7 +31,7 @@ const TeacherHomeworkDetailPage = () => {
           className="w-full flex flex-row items-center justify-start space-x-2"
           onClick={() => navigate(-1)}
         >
-          <ArrowLeft size={22} />
+          <MoveLeft size={22} />
           <h2 className="text-[24px] font-medium">Homework details</h2>
         </button>
       </div>
@@ -46,9 +54,9 @@ const TeacherHomeworkDetailPage = () => {
       </div>
 
       <div className="z-20 flex flex-row lg:hidden items-center justify-between w-full px-4 py-3">
-        <div className="w-full flex lg:hidden flex-row items-start justify-start text-white">
+        <div className="w-full flex lg:hidden flex-row items-start justify-start text-white space-x-2">
           <button onClick={() => navigate(-1)}>
-            <ArrowLeft size={22} />
+            <MoveLeft size={22} />
           </button>
           <h2 className="text-sm font-medium">Homework details</h2>
         </div>
@@ -75,8 +83,8 @@ const TeacherHomeworkDetailPage = () => {
             </div>
 
             <div className="col-span-1 flex flex-row items-center justify-center space-x-2">
-              <MessageCircle size={16} />
-              <span>54 Comment</span>
+              <Heart size={16} />
+              <span>54 </span>
             </div>
           </div>
         </div>
@@ -93,8 +101,8 @@ const TeacherHomeworkDetailPage = () => {
           </div>
 
           <div className="col-span-1 flex flex-row items-center justify-center space-x-2 border border-gray-100 py-2 rounded-xl">
-            <MessageCircle size={16} />
-            <span>54 Comment</span>
+            <Heart size={16} />
+            <span>54</span>
           </div>
         </div>
       </div>
