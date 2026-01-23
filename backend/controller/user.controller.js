@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const BlackListToken = require("../models/blackListTokenModel");
+const cloudinary = require("../config/cloudinary");
 
 const getNextUserId = async () => {
   const lastUser = await User.findOne().sort({ userId: -1 }).exec();
@@ -142,6 +143,51 @@ const logoutUser = async (req, res) => {
   await BlackListToken.create({ token });
   res.status(200).json({ message: "Logout" });
 };
+
+// ==============================Image Update or Upload==========================
+
+const updateUserImage = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Image file is required" });
+    }
+
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete old image if exists
+    if (user.public_id) {
+      await cloudinary.uploader.destroy(user.public_id);
+    }
+
+    // Convert buffer to base64 string
+    const base64Str = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+
+    // Upload to Cloudinary
+    const upload = await cloudinary.uploader.upload(base64Str, {
+      folder: "school/users",
+    });
+
+    // Update DB
+    user.image = upload.secure_url;
+    user.public_id = upload.public_id;
+    await user.save();
+
+    res.status(200).json({
+      message: "Profile image updated successfully",
+      image: user.image,
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Image upload failed" });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -151,4 +197,5 @@ module.exports = {
   userProfile,
   logoutUser,
   fetchTeacherBySchool,
+  updateUserImage,
 };

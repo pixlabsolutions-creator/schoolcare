@@ -5,6 +5,14 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.JWT_SECRET_KEY || "your_secret_key";
 
 const userSchema = new mongoose.Schema({
+  image: {
+    type: String,
+    default: "",
+  },
+  public_id: {
+    type: String,
+    default: "",
+  },
   username: {
     type: String,
     required: true,

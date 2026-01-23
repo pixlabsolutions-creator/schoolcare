@@ -20,12 +20,15 @@ import { Link } from "react-router-dom";
 import { useClass } from "../contexts/classContext";
 import { useSchool } from "../contexts/SchoolContext";
 import { useStudent } from "../contexts/studentContext";
+import ProfileImageModal from "./ProfileImageModal";
 
 const TeacherProfile = () => {
   const { user, logout, fetchTeachersBySchool, teachers } = useAuth();
   const { fetchClassesBySchool, classesBySchool } = useClass();
   const { schools } = useSchool();
   const { fetchStudentBySchool, studentsBySchool } = useStudent();
+  const [open, setOpen] = useState(false);
+  const [avatar, setAvatar] = useState(user.image);
   useEffect(() => {
     if (!user?.school) return;
     fetchClassesBySchool(user?.school);
@@ -59,10 +62,21 @@ const TeacherProfile = () => {
             <div className="flex flex-row items-center justify-between border border-gray-100 p-3 rounded-md lg:rounded-lg relative">
               <div className="flex items-center gap-3 ">
                 <div className="w-[53px] h-[53px] rounded-full bg-gradient-to-tl from-violet-800 to-purple-400 text-white flex items-center justify-center font-semibold relative">
-                  {user?.username.slice(0, 1)}
-                  <div className="bg-white text-primary-700 p-1 rounded-full absolute bottom-0 right-0">
+                  {user.image ? (
+                    <img
+                      src={user?.image}
+                      className="rounded-full"
+                      alt="Image"
+                    />
+                  ) : (
+                    user.username.slice(0, 1)
+                  )}
+                  <button
+                    className="bg-white text-primary-700 p-1 rounded-full absolute bottom-0 right-0"
+                    onClick={() => setOpen(true)}
+                  >
                     <Camera size={10} />
-                  </div>
+                  </button>
                 </div>
                 <div>
                   <p className="font-medium text-[17px]">{user?.username}</p>
@@ -71,8 +85,8 @@ const TeacherProfile = () => {
                   </p>
                 </div>
               </div>
-              <div className="absolute bottom-0 right-0">
-                <img src={ProfileIcon} alt="" />
+              <div className="hidden lg:absolute bottom-0 right-0 max-w-20">
+                <img src={user?.image} alt="" />
               </div>
             </div>
           </div>
@@ -80,12 +94,13 @@ const TeacherProfile = () => {
           <div className="hidden  lg:flex flex-row items-center justify-center">
             <div className="relative w-[95px] h-[95px]">
               <img
-                src={Icon}
+                src={user?.image}
                 alt=""
                 className="w-full h-full rounded-full object-cover"
               />
 
               <Camera
+                onClick={() => setOpen(true)}
                 size={26}
                 className="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow"
               />
@@ -214,6 +229,7 @@ const TeacherProfile = () => {
             </div>
           </div>
         </div>
+
         <div className="lg:hidden flex flex-row space-x-2 p-4 bg-white border border-gray-100 rounded-lg">
           <button
             className="flex text-primary-700 flex-row items-center justify-between space-x-2 text-[14px]"
@@ -227,6 +243,15 @@ const TeacherProfile = () => {
           <IoChatbubbleEllipsesOutline />
           <h2 className="text-[14px]">contact with Support Team</h2>
         </button>
+        <div className="w-3/5">
+          <ProfileImageModal
+            isOpen={open}
+            onClose={() => setOpen(false)}
+            userId={user._id}
+            currentImage={avatar}
+            onUpdated={(img) => setAvatar(img)}
+          />
+        </div>
       </div>
     </div>
   );
