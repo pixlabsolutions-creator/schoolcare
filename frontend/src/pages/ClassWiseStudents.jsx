@@ -5,7 +5,7 @@ import { useStudent } from "../contexts/studentContext";
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import BlockModal from "../components/ui/BlockModal";
-
+import Icon from "../assets/icon.png";
 const ClassWiseStudents = () => {
   const { name } = useParams();
   const { user } = useAuth();
@@ -37,29 +37,53 @@ const ClassWiseStudents = () => {
         <span className="text-primary-700">{classStudents.length}</span>
       </div>
 
-      <div className="flex flex-col  space-y-2 lg:hidden">
+      <div className="flex flex-col space-y-2 lg:hidden">
         {classStudents.map((student, index) => (
-          <div className="flex flex-row items-center justify-start space-x-2 bg-white p-2 rounded-[12px]">
-            <img
-              className="w-[64px] h-[64px] rounded-[10px]"
-              src={student.image}
-              alt="Image"
-            />
-            <div>
-              <h2 className="text-[14px]">{student.name}</h2>
-              <div className="grid grid-cols-4 gap-2">
-                <p className="text-[10px] col-span-1">Student ID:</p>
-                <p className="col-span-1 text-[10px]">{student.studentId}</p>
+          <div
+            key={student._id || index}
+            className="relative bg-white p-2 rounded-[12px]"
+          >
+            <div className="flex justify-between items-center p-2 border border-gray-100 rounded-[12px]">
+              <div className="flex items-center space-x-2">
+                <img className="w-[51px] rounded-[8px]" src={Icon} alt="Icon" />
+                <div>
+                  <h3 className="text-[14px] lg:text-[17px] text-black">
+                    {student.name}
+                  </h3>
+                  <p className="text-[12px] text-gray-500">
+                    Student ID: {student.studentId}
+                  </p>
+                </div>
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                <p className="text-[10px] col-span-1">Roll:</p>
-                <p className="col-span-1 text-[10px]">{student.roll}</p>
+
+              <button
+                onClick={() => handleToggle(student._id || student.studentId)}
+              >
+                <EllipsisVertical size={16} />
+              </button>
+            </div>
+
+            <div className="w-full text-[14px] text-textc2-700 mt-2">
+              <div className="grid grid-cols-3 ">
+                <h2 className="col-span-1">Address: </h2>
+                <h2 className="col-span-2">{student.school}</h2>
               </div>
-              <div className="grid grid-cols-4 gap-2">
-                <p className="text-[10px] col-span-1">Class:</p>
-                <p className="col-span-1 text-[10px]">{student.classId}</p>
+              <div className="grid grid-cols-3 ">
+                <h2 className="col-span-1">Role: </h2>
+                <h2 className="col-span-2">{student.roll}</h2>
+              </div>
+              <div className="grid grid-cols-3 ">
+                <h2 className="col-span-1">Class: </h2>
+                <h2 className="col-span-2">{student.classId}</h2>
               </div>
             </div>
+
+            {/* Mobile modal */}
+            {activeStudentId === (student._id || student.studentId) && (
+              <div className="absolute right-3 top-14 z-50">
+                <BlockModal titels={titels} />
+              </div>
+            )}
           </div>
         ))}
       </div>

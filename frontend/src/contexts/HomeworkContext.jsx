@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -101,7 +102,6 @@ export const HomeworkProvider = ({ children }) => {
 
   const fetchHomeworksById = async (id) => {
     try {
-      console.log(id, "context");
       const res = await fetch(
         `${import.meta.env.VITE_BASE_URL}/api/homework/single/${id}`,
       );
@@ -113,6 +113,48 @@ export const HomeworkProvider = ({ children }) => {
       toast.error("Failed to load Homework");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ==================Like & View =============================
+
+  // const updateLike = async (id, userId) => {
+  //   try {
+  //     const { data } = await axios.put(
+  //       `${import.meta.env.VITE_BASE_URL}/api/homework/like/${id}?userId=${userId}`,
+  //     );
+  //     toast.success(data.message);
+  //   } catch (error) {
+  //     toast.error("Failed to Like Homework");
+  //   }
+  // };
+
+  const updateLike = async (id, userId) => {
+    try {
+      setHomeworkById((prev) =>
+        prev.map((hw) => {
+          if (hw._id === id) {
+            const liked = hw.like.likerId.includes(userId);
+            return {
+              ...hw,
+              like: {
+                ...hw.like,
+                likerId: liked
+                  ? hw.like.likerId.filter((u) => u !== userId)
+                  : [...hw.like.likerId, userId],
+              },
+            };
+          }
+          return hw;
+        }),
+      );
+
+      // Backend update
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/api/homework/like/${id}?userId=${userId}`,
+      );
+    } catch (error) {
+      console.error("Failed to Like Homework");
     }
   };
 
@@ -128,6 +170,7 @@ export const HomeworkProvider = ({ children }) => {
         homeworkById,
         fetchHomeworksByClassForStudent,
         studentHomeworkByClass,
+        updateLike,
       }}
     >
       {children}

@@ -28,7 +28,10 @@ const TeacherHeader = () => {
                   School ID:{user?.userId}
                 </p>
               </div>
-              <img src={user.image} className="w-10 h-10 rounded-full" />
+              <img
+                src={user?.image || SplashIcon}
+                className="w-10 h-10 rounded-full"
+              />
             </div>
           </button>
         </div>

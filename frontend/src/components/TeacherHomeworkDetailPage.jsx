@@ -1,31 +1,26 @@
-import {
-  ArrowLeft,
-  Eye,
-  MessageCircle,
-  Send,
-  Download,
-  MoveLeft,
-  Heart,
-} from "lucide-react";
+import { Eye, MoveLeft, Heart } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiSolidEditAlt } from "react-icons/bi";
 import HomeWorkSubjectCard from "./HomeWorkSubjectCard";
 import { useHomework } from "../contexts/HomeworkContext";
 import { useEffect } from "react";
 import Homeworkicon from "../assets/homeworkicon.png";
+import { useAuth } from "../contexts/AuthContext";
 
 const TeacherHomeworkDetailPage = () => {
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const { id } = useParams();
-  const { fetchHomeworksById, homeworkById } = useHomework();
+  const { fetchHomeworksById, homeworkById, updateLike } = useHomework();
 
   useEffect(() => {
     fetchHomeworksById(id);
   }, [id]);
 
+  const isLiked = homeworkById[0]?.like.likerId.includes(user.userId);
+
   return (
-    <div className="flex flex-col items-center justify-center bg-white rounded-2xl">
+    <div className="flex flex-col items-center  bg-white rounded-2xl lg:min-h-screen">
       <div className=" hidden lg:flex flex-row items-center justify-center w-full px-4  border-b  py-8 border-gray-100">
         <button
           className="w-full flex flex-row items-center justify-start space-x-2"
@@ -77,33 +72,42 @@ const TeacherHomeworkDetailPage = () => {
           <p>{homeworkById[0]?.details}</p>
           {/* Stats */}
           <div className="grid grid-cols-2 border border-blue-100 p-3 rounded-xl divide-x-2">
-            <div className="col-span-1 flex flex-row items-center justify-center space-x-2 border-blue-100">
+            <button className="col-span-1 flex flex-row items-center justify-center space-x-2 border-blue-100">
               <Eye size={16} />
               <span>32</span>
-            </div>
+            </button>
 
-            <div className="col-span-1 flex flex-row items-center justify-center space-x-2">
-              <Heart size={16} />
-              <span>54 </span>
-            </div>
+            <button
+              className={`col-span-1 flex flex-row items-center justify-center space-x-2 ${
+                isLiked ? "text-red-500" : "text-textc1-700"
+              }`}
+              onClick={() => updateLike(homeworkById[0]?._id, user?.userId)}
+            >
+              {isLiked ? <Heart fill="red" size={16} /> : <Heart size={16} />}
+              <span>{homeworkById[0]?.like?.likerId?.length}</span>
+            </button>
           </div>
         </div>
       </div>
       {/* Content */}
-      <div className=" hidden lg:flex flex-col px-4 py-4 space-y-3 mt-44 md:mt-0">
+      <div className="w-full hidden lg:flex flex-col items-center justify-between px-4 py-4 space-y-3 mt-44 md:mt-0">
         {/* Bangla Description */}
-        <p>{homeworkById[0]?.details}</p>
+        <p>{homeworkById[0]?.details} </p>
         {/* Stats */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="col-span-1 flex flex-row items-center justify-center space-x-2 border border-gray-100 py-2 rounded-xl">
+        <div className="w-full grid grid-cols-2 gap-2">
+          <button className="col-span-1 flex flex-row items-center justify-center space-x-2 border border-gray-100 py-2 rounded-xl">
             <Eye size={16} />
             <span>32</span>
-          </div>
-
-          <div className="col-span-1 flex flex-row items-center justify-center space-x-2 border border-gray-100 py-2 rounded-xl">
-            <Heart size={16} />
-            <span>54</span>
-          </div>
+          </button>
+          <button
+            className={`col-span-1 flex flex-row items-center justify-center space-x-2 ${
+              isLiked ? "text-red-500" : "text-textc1-700"
+            }`}
+            onClick={() => updateLike(homeworkById[0]?._id, user?.userId)}
+          >
+            {isLiked ? <Heart fill="red" size={16} /> : <Heart size={16} />}
+            <span>{homeworkById[0]?.like?.likerId?.length}</span>
+          </button>
         </div>
       </div>
     </div>

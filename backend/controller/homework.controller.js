@@ -20,7 +20,7 @@ const createHomeWork = async (req, res) => {
     // upload to cloudinary
     const result = await cloudinary.uploader.upload(
       `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
-      { folder: "homework" }
+      { folder: "homework" },
     );
 
     const homework = await Homework.create({
@@ -118,10 +118,43 @@ const getHomeworkById = async (req, res) => {
   }
 };
 
+// ======================Update Like ================================
+
+const updateHomeworkLikeById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.query;
+
+    const homework = await Homework.findById(id);
+
+    if (!homework) {
+      return res.status(404).json({ message: "Homework not found" });
+    }
+
+    const index = homework.like.likerId.indexOf(userId);
+
+    if (index === -1) {
+      // Like
+      homework.like.likerId.push(userId);
+      await homework.save();
+      return res.status(200).json({ message: "Liked" });
+    } else {
+      // Unlike
+      homework.like.likerId.splice(index, 1);
+      await homework.save();
+      return res.status(200).json({ message: "Unliked" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   createHomeWork,
   getAllHomework,
   getHomeworkByClass,
   getHomeworkById,
   getHomeworkByClassForStudents,
+  updateHomeworkLikeById,
 };

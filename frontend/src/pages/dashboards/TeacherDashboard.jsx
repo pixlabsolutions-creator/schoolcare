@@ -5,12 +5,18 @@ import StatCard from "../../components/common/StatCard";
 import { useStudent } from "../../contexts/studentContext";
 import { useAuth } from "../../contexts/AuthContext";
 import NotificationBell from "../../components/NotificationBell";
+import { useEffect } from "react";
 
 const TeacherDashboard = () => {
   const { students } = useStudent();
-  const { user } = useAuth();
+  const { user, fetchTeachersBySchool, teachers } = useAuth();
 
   const isDesktop = window.innerWidth >= 768;
+
+  useEffect(() => {
+    if (!user?.school) return;
+    fetchTeachersBySchool(user?.school);
+  }, [user?.school]);
 
   return (
     <div className="min-h-screen  space-y-4 lg:bg-white lg:p-4 rounded-2xl">
@@ -25,7 +31,7 @@ const TeacherDashboard = () => {
         {/* Total Teachers */}
         <StatCard
           title="Total Teachers"
-          value={user?.totalTeachers || 10}
+          value={teachers?.length || 0}
           {...(isDesktop ? null : { icon: Users })}
           order="order-2 lg:order-4 col-span-1"
         />

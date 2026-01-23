@@ -27,7 +27,7 @@ const StudentProfilePage = () => {
                 <div>
                   <p className="font-medium text-[17px]">{user?.name}</p>
                   <p className="text-xs text-gray-400 text-[12px]">
-                    ID: {user?.studentId}
+                    Student ID: {user?.studentId}
                   </p>
                   <p className="text-xs text-gray-400 text-[12px]">
                     {user?.school}

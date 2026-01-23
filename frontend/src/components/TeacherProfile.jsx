@@ -9,6 +9,7 @@ import {
   Ticket,
   BookOpen,
   MessageCircleMore,
+  Megaphone,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -28,7 +29,7 @@ const TeacherProfile = () => {
   const { schools } = useSchool();
   const { fetchStudentBySchool, studentsBySchool } = useStudent();
   const [open, setOpen] = useState(false);
-  const [avatar, setAvatar] = useState(user.image);
+  const [avatar, setAvatar] = useState(user?.image);
   useEffect(() => {
     if (!user?.school) return;
     fetchClassesBySchool(user?.school);
@@ -44,7 +45,9 @@ const TeacherProfile = () => {
     fetchStudentBySchool(user?.school);
   }, [user?.school]);
 
-  const findSchool = schools.filter((school) => user.school === school.school);
+  const findSchool = schools?.filter(
+    (school) => user?.school === school?.school,
+  );
 
   return (
     <div className="space-y-4 lg:space-y-20 lg:bg-white rounded-2xl pb-20 min-h-screen">
@@ -62,15 +65,18 @@ const TeacherProfile = () => {
             <div className="flex flex-row items-center justify-between border border-gray-100 p-3 rounded-md lg:rounded-lg relative">
               <div className="flex items-center gap-3 ">
                 <div className="w-[53px] h-[53px] rounded-full bg-gradient-to-tl from-violet-800 to-purple-400 text-white flex items-center justify-center font-semibold relative">
-                  {user.image ? (
+                  {user?.image ? (
                     <img
-                      src={user?.image}
+                      src={user.image}
                       className="rounded-full"
                       alt="Image"
                     />
                   ) : (
-                    user.username.slice(0, 1)
+                    <div className="w-full h-full flex items-center justify-center text-white bg-linear-to-tr from-primary-700 to-purple-600 rounded-full">
+                      {user?.username?.slice(0, 1)}
+                    </div>
                   )}
+
                   <button
                     className="bg-white text-primary-700 p-1 rounded-full absolute bottom-0 right-0"
                     onClick={() => setOpen(true)}
@@ -86,7 +92,7 @@ const TeacherProfile = () => {
                 </div>
               </div>
               <div className="hidden lg:absolute bottom-0 right-0 max-w-20">
-                <img src={user?.image} alt="" />
+                <img src={user.image || null} alt="" />
               </div>
             </div>
           </div>
@@ -94,7 +100,7 @@ const TeacherProfile = () => {
           <div className="hidden  lg:flex flex-row items-center justify-center">
             <div className="relative w-[95px] h-[95px]">
               <img
-                src={user?.image}
+                src={user.image || null}
                 alt=""
                 className="w-full h-full rounded-full object-cover"
               />
@@ -113,7 +119,7 @@ const TeacherProfile = () => {
                 School Name
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {user.school}
+                {user?.school}
               </p>
             </fieldset>
 
@@ -122,7 +128,7 @@ const TeacherProfile = () => {
                 Total Class
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {classesBySchool.length}
+                {classesBySchool?.length}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -130,7 +136,7 @@ const TeacherProfile = () => {
                 Joined on
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {new Date(user.joinOn).toLocaleDateString()}
+                {new Date(user?.joinOn).toLocaleDateString()}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -138,7 +144,7 @@ const TeacherProfile = () => {
                 Contact Number
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {user.phone}
+                {user?.phone}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -146,7 +152,7 @@ const TeacherProfile = () => {
                 Total Teacher
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {teachers.length}
+                {teachers?.length}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -154,7 +160,7 @@ const TeacherProfile = () => {
                 Total Students
               </legend>
               <p className="label text-textc1-700 text-[12px] lg:text-[20px]">
-                {studentsBySchool.length}
+                {studentsBySchool?.length}
               </p>
             </fieldset>
             <fieldset className="fieldset border border-gray-100 rounded-box w-xs  min-h-[56px] px-3 pt-1 pb-2 rounded-md">
@@ -206,7 +212,16 @@ const TeacherProfile = () => {
                 >
                   <MessageCircleMore size={20} />
                   <span className="text-[14px] text-textc1-700">
-                    Chat With Students{" "}
+                    Chat With Students
+                  </span>
+                </Link>
+                <Link
+                  to="/teacher/chat"
+                  className="flex lg:hidden w-full items-center gap-2 p-4 border border-gray-100 rounded-lg text-textc2-700"
+                >
+                  <Megaphone size={20} />
+                  <span className="text-[14px] text-textc1-700">
+                    Important Notice
                   </span>
                 </Link>
                 <Link
@@ -239,7 +254,6 @@ const TeacherProfile = () => {
           </button>
         </div>
         <button className=" flex flex-row items-center space-x-2 justify-center lg:hidden  w-full py-3 bg-primary-700 text-white capitalize rounded-lg text-xl font-lexend">
-          {" "}
           <IoChatbubbleEllipsesOutline />
           <h2 className="text-[14px]">contact with Support Team</h2>
         </button>
