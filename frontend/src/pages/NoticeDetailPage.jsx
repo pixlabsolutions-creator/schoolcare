@@ -7,24 +7,26 @@ import { useAnouncement } from "../contexts/AnoucementContext";
 
 const NoticeDetailPage = () => {
   const { id } = useParams();
+
   const navigate = useNavigate();
+
   const { fetchAnouncementById, anouncementsById, loading } = useAnouncement();
+
   useEffect(() => {
     if (!id) return;
     fetchAnouncementById(id);
   }, [id]);
 
-  console.log(anouncementsById);
   return (
     <div className="lg:bg-white rounded-3xl lg:min-h-screen">
       {/* ===== Header ===== */}
-      <div className="flex flex-row items-center justify-between  lg:border-b-[1px] lg:border-gray-200  lg:p-8">
+      <div className="flex flex-row items-center justify-between  lg:border-b-[1px] lg:border-gray-200 p-[15px]  lg:p-8">
         <div className="flex flex-row items-start justify-start space-x-2">
           <MoveLeft onClick={() => navigate(-1)} />
           <h1 className="text-lg font-semibold text-gray-800">Notice</h1>
         </div>
       </div>
-      <div className="grid grid-cols-1  gap-2 lg:gap-4  lg:p-6">
+      <div className="grid grid-cols-1  gap-2 lg:gap-4 px-[15px]  lg:p-6">
         <div className="col-span-1 flex flex-col space-y-4 border border-gray-100 p-2 lg:p-4 bg-white rounded-2xl">
           <div className="flex flex-row items-center justify-between border border-gray-100 rounded-2xl p-5">
             <div className="flex flex-row items-center justidy-start space-x-4">

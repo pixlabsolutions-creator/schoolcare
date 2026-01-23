@@ -3,14 +3,30 @@ import { TiPin } from "react-icons/ti";
 import StudentImage from "../../assets/students.png";
 import { useHomework } from "../../contexts/HomeworkContext";
 import { useAnouncement } from "../../contexts/AnoucementContext";
-import Notice from "../../assets/notice.png";
+
 import Notice2 from "../../assets/notice2.png";
 import NotificationBell from "../../components/NotificationBell";
 import { Link } from "react-router-dom";
+import { useNews } from "../../contexts/NewsContext";
+import { useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 const StudentDashboard = () => {
-  const { homework } = useHomework();
+  const { fetchHomeworksByClassForStudent, studentHomeworkByClass } =
+    useHomework();
   const { anouncements } = useAnouncement();
+  const { fetchNewsBySchool, newsBySchool } = useNews();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user?.school) return;
+    fetchNewsBySchool(user?.school);
+  }, [user?.school]);
+
+  useEffect(() => {
+    if (!user?.school || !user?.clssId) return;
+    fetchHomeworksByClassForStudent(user?.clssId, user?.school);
+  }, [user]);
 
   const calendarDays = [
     ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
@@ -229,35 +245,43 @@ const StudentDashboard = () => {
               See All
             </Link>
           </div>
-          <button className="lg:absolute lg:block  hidden p-2 rounded-full bg-primary-700/80 text-white right-20 top-1/2">
+          <button
+            className={`${studentHomeworkByClass && studentHomeworkByClass.length > 0 ? "lg:absolute lg:block hidden " : "hidden"}  p-2 rounded-full bg-primary-700/80 text-white right-20 top-1/2`}
+          >
             <ChevronRight />
           </button>
-          <div className="flex flex-col space-y-2 lg:space-y-0 lg:grid grid-cols-3 lg:gap-4 overflow-x-auto">
-            {homework.map((s, i) => (
-              <Link
-                to={`homework/${s._id}`}
-                key={i}
-                className="flex bg-white flex-row lg:flex-col space-x-2 items-start lg:space-y-4 rounded-[12px] lg:rounded-xl  p-2 lg:p-4 "
-              >
-                <img
-                  className="rounded-md lg:rounded-lg w-[76px] h-[76px] lg:w-auto lg:h-auto"
-                  src={s.image}
-                  alt=""
-                />
-                <div className="flex flex-col  justify-start space-y-1 lg:space-y-0">
-                  <p className="text-[17px] lg:text-2xl text-textc1-700  font-kalpurush">
-                    {s.subject}
-                  </p>
-                  <p className="text-[12px] lg:text-[14px] textc2-700 text-gray-400 capitalize">
-                    {s.teacher}
-                  </p>
-                  <p className="text-[12px]  textc3-700 text-gray-400 capitalize">
-                    {new Date(s.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {studentHomeworkByClass && studentHomeworkByClass.length > 0 ? (
+            <div className="flex flex-col space-y-2 lg:space-y-0 lg:grid grid-cols-3 lg:gap-4 overflow-x-auto">
+              {studentHomeworkByClass.map((s, i) => (
+                <Link
+                  to={`homework/${s._id}`}
+                  key={i}
+                  className="flex bg-white flex-row lg:flex-col space-x-2 items-start lg:space-y-4 rounded-[12px] lg:rounded-xl  p-2 lg:p-4 "
+                >
+                  <img
+                    className="rounded-md lg:rounded-lg w-[76px] h-[76px] lg:w-auto lg:h-auto max-w-96"
+                    src={s.image}
+                    alt=""
+                  />
+                  <div className="flex flex-col  justify-start space-y-1 lg:space-y-0">
+                    <p className="text-[17px] lg:text-2xl text-textc1-700  font-kalpurush">
+                      {s.subject}
+                    </p>
+                    <p className="text-[12px] lg:text-[14px] textc2-700 text-gray-400 capitalize">
+                      {s.teacher}
+                    </p>
+                    <p className="text-[12px]  textc3-700 text-gray-400 capitalize">
+                      {new Date(s.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-gray-200 flex flex-col items-center justify-center rounded-2xl">
+              <h2 className="text-gray-400 font-lexend">Homeworks Not found</h2>
+            </div>
+          )}
         </div>
         {/* ========================Notice=================================== */}
         <div className="hidden lg:flex flex-col  bg-white rounded-2xl lg:p-5 border border-gray-100 relative ">
@@ -273,21 +297,32 @@ const StudentDashboard = () => {
               See All
             </Link>
           </div>
-          <button className="absolute p-2 rounded-full bg-primary-700/80 text-white right-20 top-1/2">
+          <button
+            className={`${anouncements && anouncements.length > 0 ? "absolute" : "hidden"}  p-2 rounded-full bg-primary-700/80 text-white right-20 top-1/2`}
+          >
             <ChevronRight />
           </button>
-          <div className="grid grid-cols-3 gap-4 overflow-x-auto">
-            {anouncements.map((anouncement) => (
-              <NoticeAnnouncement
-                title={anouncement.title}
-                descriptions={anouncement.descriptions}
-                like={anouncement.like}
-                teacher={anouncement.teacher}
-                comment={anouncement.conmment}
-                id={anouncement._id}
-              />
-            ))}
-          </div>
+
+          {anouncements && anouncements.length > 0 ? (
+            <div className="grid grid-cols-3 gap-4 overflow-x-auto">
+              {anouncements.map((anouncement) => (
+                <NoticeAnnouncement
+                  title={anouncement.title}
+                  descriptions={anouncement.descriptions}
+                  like={anouncement.like}
+                  teacher={anouncement.teacher}
+                  comment={anouncement.conmment}
+                  id={anouncement._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-gray-200 flex flex-col items-center justify-center rounded-2xl">
+              <h2 className="text-gray-400 font-lexend">
+                Homeworks Notice Found
+              </h2>
+            </div>
+          )}
         </div>
 
         {/* ===========Mobile================== */}
@@ -303,18 +338,27 @@ const StudentDashboard = () => {
               See All
             </Link>
           </div>
-          <div className="flex flex-col space-y-2 lg:grid lg:grid-cols-3 lg:gap-4 overflow-x-auto">
-            {anouncements.map((anouncement) => (
-              <NoticeAnnouncementMobile
-                title={anouncement.title}
-                descriptions={anouncement.descriptions}
-                like={anouncement.like}
-                teacher={anouncement.teacher}
-                comment={anouncement.conmment}
-                id={anouncement._id}
-              />
-            ))}
-          </div>
+
+          {anouncements && anouncements.length > 0 ? (
+            <div className="flex flex-col space-y-2 lg:grid lg:grid-cols-3 lg:gap-4 overflow-x-auto">
+              {anouncements.map((anouncement) => (
+                <NoticeAnnouncementMobile
+                  title={anouncement.title}
+                  descriptions={anouncement.descriptions}
+                  like={anouncement.like}
+                  teacher={anouncement.teacher}
+                  comment={anouncement.conmment}
+                  id={anouncement._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-gray-200 flex flex-col items-center justify-center rounded-2xl">
+              <h2 className="text-gray-400 font-lexend">
+                Homeworks Notice Found
+              </h2>
+            </div>
+          )}
         </div>
 
         {/* Popular News */}
@@ -328,36 +372,43 @@ const StudentDashboard = () => {
               See All
             </span>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            {homework.map((s, i) => (
-              <Link
-                to={`news/${s._id}`}
-                className="col-span-1 flex flex-col space-y-4 border border-blue-100 p-4 rounded-2xl"
-              >
-                <img className="rounded-2xl" src={s.image} alt="" />
-                <p className="text-sm text-textc3-700">12 january</p>
-                <p className="text-textc2-700 text-md font-kalpurush">
-                  সমস্ত অভিভাবকগণকে অবগতির জন্য জানানো যাচ্ছে যে, আগামী
-                  বৃহস্পতিবার (১৮ জানুয়ারি ২০২৬) সকাল ১০:০০ ঘটিকায় আমাদের
-                  স্কুলে অভিভাবক-শিক্ষক সভা অনুষ্ঠিত হবে।.{" "}
-                  <span className="text-primary-700 text-md font-sans">
-                    Read more..
-                  </span>
-                </p>
-                <div className="grid grid-cols-2 border border-blue-100 p-3 rounded-lg ">
-                  <span className="col-span-1 flex items-center justify-center gap-1 text-textc1-700">
-                    <Eye className="w-4 h-4" />
-                    <span className="text-sm">0</span>
-                  </span>
 
-                  <span className="col-span-1 flex items-center justify-center gap-1 text-textc1-700">
-                    <Heart className="w-4 h-4" />
-                    <span className="text-sm">0</span>
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {newsBySchool && newsBySchool.length > 0 ? (
+            <div className="grid grid-cols-3 gap-4">
+              {newsBySchool.map((s, i) => (
+                <Link
+                  to={`news/${s._id}`}
+                  className="col-span-1 flex flex-col space-y-4 border border-blue-100 p-4 rounded-2xl"
+                >
+                  <img className="rounded-2xl" src={s.image} alt="" />
+                  <p className="text-sm text-textc3-700">12 january</p>
+                  <p className="text-textc2-700 text-md font-kalpurush">
+                    {s.descriptions}
+                    <span className="text-primary-700 text-md font-sans">
+                      Read more..
+                    </span>
+                  </p>
+                  <div className="grid grid-cols-2 border border-blue-100 p-3 rounded-lg ">
+                    <span className="col-span-1 flex items-center justify-center gap-1 text-textc1-700">
+                      <Eye className="w-4 h-4" />
+                      <span className="text-sm">0</span>
+                    </span>
+
+                    <span className="col-span-1 flex items-center justify-center gap-1 text-textc1-700">
+                      <Heart className="w-4 h-4" />
+                      <span className="text-sm">0</span>
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-gray-200 flex flex-col items-center justify-center rounded-2xl">
+              <h2 className="text-gray-400 font-lexend">
+                Homeworks Notice Found
+              </h2>
+            </div>
+          )}
         </div>
 
         {/* Popular News Mobile*/}
@@ -371,39 +422,47 @@ const StudentDashboard = () => {
               See All
             </span>
           </div>
-          <div className="flex flex-col items-center justify-center space-y-2">
-            {homework.map((s, i) => (
-              <Link
-                to={`news/${s._id}`}
-                className=" flex flex-row items-center justify-start space-x-4  p-2 rounded-[12px] bg-white"
-              >
-                <img
-                  className="rounded-md w-[76px] h-[76px]"
-                  src={s.image}
-                  alt=""
-                />
 
-                <div className="flex flex-col items-start justify-start space-y-1 lg:space-y-4">
-                  <p className="text-gray-700 text-[12px] lg:text-[17px] line-clamp-2 font-kalpurush">
-                    সমস্ত অভিভাবকগণকে অবগতির জন্য জানানো যাচ্ছে যে, আগামী
-                    বৃহস্পতিবার (১৮ জানুয়ারি ২০২৬)
-                  </p>
-                  <div className="flex flex-row items-start justify-start text-[12px]   rounded-lg space-x-6 text-textc2-700 lg:text-[14px]">
-                    <span className="col-span-1 text-center flex items-center justify-center text-[12px] lg:text-[14px]">
-                      <Eye size={18} />
+          {newsBySchool && newsBySchool.length > 0 ? (
+            <div className="flex flex-col items-center justify-between space-y-2">
+              {newsBySchool.map((s, i) => (
+                <Link
+                  to={`news/${s._id}`}
+                  className=" flex flex-row items-center justify-start space-x-4  p-2 rounded-[12px] bg-white"
+                >
+                  <img
+                    className="rounded-md w-[76px] h-[76px]"
+                    src={s.image}
+                    alt=""
+                  />
 
-                      <span className="pl-1 text-[14px] ">32</span>
-                    </span>
-                    <span className="col-span-1 flex items-center justify-center text-[12px] lg:text-[14px]">
-                      <Heart size={18} />
+                  <div className="flex flex-col items-start justify-start space-y-1 lg:space-y-4">
+                    <p className="text-gray-700 text-[12px] lg:text-[17px] line-clamp-2 font-kalpurush">
+                      {s.descriptions}
+                    </p>
+                    <div className="flex flex-row items-start justify-start text-[12px]   rounded-lg space-x-6 text-textc2-700 lg:text-[14px]">
+                      <span className="col-span-1 text-center flex items-center justify-center text-[12px] lg:text-[14px]">
+                        <Eye size={18} />
 
-                      <span className="pl-1 text-[14px] ">2K</span>
-                    </span>
+                        <span className="pl-1 text-[14px] ">32</span>
+                      </span>
+                      <span className="col-span-1 flex items-center justify-center text-[12px] lg:text-[14px]">
+                        <Heart size={18} />
+
+                        <span className="pl-1 text-[14px] ">2K</span>
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-gray-200 flex flex-col items-center justify-center rounded-2xl">
+              <h2 className="text-gray-400 font-lexend">
+                Homeworks Notice Found
+              </h2>
+            </div>
+          )}
         </div>
       </div>
     </div>

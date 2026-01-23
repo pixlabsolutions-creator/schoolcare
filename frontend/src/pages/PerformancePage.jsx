@@ -1,10 +1,8 @@
 import { ArrowRight, Calendar, MoveLeft } from "lucide-react";
-
 import StudentImage from "../assets/students.png";
-import { useHomework } from "../contexts/HomeworkContext";
 import { Link } from "react-router-dom";
 
-const StudentDashboard = () => {
+const PerformancePage = () => {
   const calendarDays = [
     ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     [28, 29, 30, 31, 1, 2, 3],
@@ -209,4 +207,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard;
+export default PerformancePage;

@@ -1,10 +1,10 @@
 import { Eye, Heart, icons, Users } from "lucide-react";
 import SectionHeader from "../../components/common/SectionHeader";
 import StatCard from "../../components/common/StatCard";
-import ProgressBar from "../../components/common/ProgressBar";
-import { Link } from "react-router-dom";
+
 import { useStudent } from "../../contexts/studentContext";
 import { useAuth } from "../../contexts/AuthContext";
+import NotificationBell from "../../components/NotificationBell";
 
 const TeacherDashboard = () => {
   const { students } = useStudent();
@@ -14,11 +14,11 @@ const TeacherDashboard = () => {
 
   return (
     <div className="min-h-screen  space-y-4 lg:bg-white lg:p-4 rounded-2xl">
-      <div className="lg:hidden">
-        <SectionHeader
-          title="Good Morning!"
-          subtitle="☀️ Let’s get ready to go to your school"
-        />
+      <div className="flex flex-row items-center justify-between lg:hidden">
+        <SectionHeader title="Good Morning!" subtitle={`☀️ ${user.school}`} />
+        <div className="p-2 border border-gray-1-200 rounded-full">
+          <NotificationBell />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-[15px]">
@@ -29,29 +29,6 @@ const TeacherDashboard = () => {
           {...(isDesktop ? null : { icon: Users })}
           order="order-2 lg:order-4 col-span-1"
         />
-        {/* Average Performance */}
-        <StatCard
-          title="Average performance"
-          order="order-3 lg:order-1 lg:col-span-2"
-          {...(isDesktop ? { icon: Users } : { status: "Bad" })}
-        >
-          <ProgressBar
-            value={34}
-            gradient="linear-gradient(90deg,#22c55e,#facc15,#fb7185)"
-          />
-        </StatCard>
-
-        {/* Today Present */}
-        <StatCard
-          title="Today Present"
-          order="order-4 lg:order-2  lg:col-span-2"
-          {...(isDesktop ? { status: students.length } : { status: "Good" })}
-        >
-          <ProgressBar
-            value={70}
-            gradient="linear-gradient(90deg,#22c55e,#facc15,#fb7185)"
-          />
-        </StatCard>
 
         {/* Total Students */}
         <StatCard

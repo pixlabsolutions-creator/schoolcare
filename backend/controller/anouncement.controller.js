@@ -43,7 +43,7 @@ const getAnnouncemantById = async (req, res) => {
     if (!announcemant) {
       return res.status(401).json({ message: " No anouncemant Found yet" });
     }
-    console.log(announcemant);
+
     res.status(200).json(announcemant);
   } catch (error) {
     res.status(500).send("Internal Server Error");

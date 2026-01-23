@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MoveRight, BookOpen, MoveLeft, Trash2 } from "lucide-react";
 import { GoPlus } from "react-icons/go";
 import ClassAddModal from "../components/ClassAddModal";
@@ -14,7 +14,7 @@ const HomeWork = () => {
   const [open, setOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-
+  const navigate = useNavigate();
   const filterStudent = (cls) =>
     students.filter((student) => student.classId === cls).length;
 
@@ -32,10 +32,15 @@ const HomeWork = () => {
       <div className=" ">
         {/* ===== Header ===== */}
         <div className="flex flex-row items-center justify-between lg:bg-white p-4 lg:py-8 rounded-t-2xl lg:border-b-[1px] lg:border-gray-200">
-          <div className="flex flex-row items-start justify-start space-x-2 ">
-            <MoveLeft className="flex lg:hidden" />
-            <h1 className="text-lg font-semibold text-gray-800">Class List</h1>
-          </div>
+          <button
+            onClick={() => navigate(-1)}
+            className="flex flex-row items-start justify-start space-x-2 "
+          >
+            <MoveLeft className="" />
+            <h1 className="text-[17px] lg:text-[24px] font-semibold text-gray-800">
+              Class List
+            </h1>
+          </button>
 
           <button
             className=" flex-row items-center justify-center space-x-2 px-8 py-3 rounded-[10px] bg-[#9542e7] text-white hidden lg:flex"
@@ -83,7 +88,7 @@ const HomeWork = () => {
         </div>
         <div>
           <button
-            className="flex lg:hidden  flex-row items-center justify-center space-x-2 px-8 py-2  h-[48px] rounded-[10px] bg-[#9542e7] text-white w-full"
+            className="flex  mt-4 lg:hidden  flex-row items-center justify-center space-x-2 px-8 py-2  h-[48px] rounded-[10px] bg-[#9542e7] text-white w-full"
             onClick={() => setOpen(true)}
           >
             <GoPlus className="text-2xl " />

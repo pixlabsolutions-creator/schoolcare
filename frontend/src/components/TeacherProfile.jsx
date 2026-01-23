@@ -54,7 +54,7 @@ const TeacherProfile = () => {
       {/* ===== Main Card ===== */}
       <div className="lg:w-2/3 lg:shadow-lg lg:mx-auto  lg:flex lg:flex-col lg:items-center lg:justify-center lg:bg-white rounded-2xl lg:border border-gray-100 lg:p-10 space-y-4">
         <div className="w-full grid grid-cols-1 gap-4 capitalize ">
-          {/* ===== Student Info ===== */}
+          {/* ===== Teacher Info ===== */}
           <div className="lg:hidden rounded-lg lg:rounded-2xl p-2 lg:p-4 space-y-2 bg-white">
             <div className="flex flex-row items-center justify-between border border-gray-100 p-3 rounded-md lg:rounded-lg relative">
               <div className="flex items-center gap-3 ">
@@ -67,7 +67,7 @@ const TeacherProfile = () => {
                 <div>
                   <p className="font-medium text-[17px]">{user?.username}</p>
                   <p className="text-xs text-gray-400 text-[12px]">
-                    ID: {user?.userId}
+                    Teacher ID: {user?.userId}
                   </p>
                 </div>
               </div>

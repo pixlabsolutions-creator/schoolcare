@@ -39,6 +39,7 @@ const attendanceRoute = require("./router/attendance.route");
 const notificationRoute = require("./router/nottification.route");
 const notificationReadRoute = require("./router/notificationread.route");
 const schoolRoute = require("./router/school.router");
+const newsRoute = require("./router/news.route");
 // ===================MiddleWere=====================
 app.use(
   cors({
@@ -75,5 +76,6 @@ app.use("/api/attendance", attendanceRoute);
 app.use("/api/notification", notificationRoute);
 app.use("/api/notifyread", notificationReadRoute);
 app.use("/api/schools", schoolRoute);
+app.use("/api/news", newsRoute);
 
 module.exports = server;

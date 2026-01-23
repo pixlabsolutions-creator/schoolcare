@@ -1,16 +1,19 @@
 import { ArrowLeft, Eye, MessageCircle, MoveLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useHomework } from "../contexts/HomeworkContext";
+
 import { useEffect } from "react";
+import { useNews } from "../contexts/NewsContext";
 
 const StudentNewsDetail = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const { fetchHomeworksById, homeworkById } = useHomework();
-  console.log(homeworkById);
+
+  const { fetchNewsById, newsById } = useNews();
+
   useEffect(() => {
-    fetchHomeworksById(id);
+    if (!id) return;
+    fetchNewsById(id);
   }, [id]);
   return (
     <div className=" lg:bg-white lg:rounded-2xl">
@@ -23,16 +26,16 @@ const StudentNewsDetail = () => {
       <div className="px-[15px] lg:py-4">
         <div className="p-[10px] rounded-[20px] bg-white">
           <img
-            src={homeworkById[0]?.image}
+            src={newsById[0]?.image}
             alt="Homework"
             className="w-full h-52 lg:h-72 sm:h-64 object-cover  rounded-[15px]"
           />
           <div className=" space-y-2 mt-4">
             <h2 className="text-textc1-700 text-[14px]">
-              {homeworkById[0]?.subject}
+              {newsById[0]?.title}
             </h2>
             <p className="text-textc2-700 text-[14px] text-justify">
-              {homeworkById[0]?.details}
+              {newsById[0]?.descriptions}
             </p>
             {/* Stats */}
             <div className="grid grid-cols-2 border border-gray-100 p-3 rounded-xl divide-x-2">
