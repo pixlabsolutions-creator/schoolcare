@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MoveRight, BookOpen, MoveLeft, Trash2 } from "lucide-react";
 import { GoPlus } from "react-icons/go";
@@ -7,20 +7,24 @@ import { useStudent } from "../contexts/studentContext";
 import ClassDeleteModal from "../components/ClassDeleteModal";
 import { toast } from "react-toastify";
 import { useClass } from "../contexts/classContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const HomeWork = () => {
   const { classes, deleteClass } = useClass();
-  const { students } = useStudent();
   const [open, setOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [schoolId, setSchoolId] = useState(null);
   const navigate = useNavigate();
-  const filterStudent = (cls) =>
-    students.filter((student) => student.classId === cls).length;
+  const { user } = useAuth();
+  useEffect(() => {
+    if (!user.school) return;
+    setSchoolId(user.school);
+  }, [user]);
 
   const handleDelete = async () => {
     try {
-      await deleteClass(deleteId);
+      await deleteClass(deleteId, schoolId);
       setDeleteModal(false);
     } catch (error) {
       console.error(error);

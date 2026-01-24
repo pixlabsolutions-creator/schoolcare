@@ -88,10 +88,10 @@ export const ClassProvider = ({ children }) => {
     }
   };
 
-  const deleteClass = async (id) => {
+  const deleteClass = async (id, school) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/api/classes/${id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/classes/${id}?school=${encodeURIComponent(school)}`,
         {
           method: "DELETE",
         },

@@ -36,7 +36,7 @@ const menu = [
 const StudentSidebar = () => {
   const { logout } = useAuth();
   return (
-    <div className="hidden lg:flex w-64 bg-[#FBFBFD] border-r border-gray-100 flex-col py-6 justify-between min-h-screen">
+    <div className="hidden lg:flex w-64 bg-[#FBFBFD] border-r border-gray-100 flex-col py-6 justify-between min-h-screen pb-20">
       <nav className="flex-1 px-4 space-y-2 ">
         {menu.map((item) => (
           <NavLink

@@ -3,13 +3,13 @@ const News = require("../models/news.model");
 
 const createNews = async (req, res) => {
   try {
-    const { title, descriptions, school } = req.body;
+    const { title, descriptions } = req.body;
 
     if (!req.file) {
       return res.status(400).json({ message: "Image is required" });
     }
 
-    if (!title || !descriptions || !school) {
+    if (!title || !descriptions) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -23,7 +23,6 @@ const createNews = async (req, res) => {
       image: result.secure_url,
       title,
       descriptions,
-      school,
       public_id: result.public_id,
     });
 

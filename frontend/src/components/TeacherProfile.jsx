@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { useClass } from "../contexts/classContext";
 import { useSchool } from "../contexts/SchoolContext";
 import { useStudent } from "../contexts/studentContext";
+import { useAnouncement } from "../contexts/AnoucementContext";
 import ProfileImageModal from "./ProfileImageModal";
 
 const TeacherProfile = () => {
@@ -30,6 +31,7 @@ const TeacherProfile = () => {
   const { fetchStudentBySchool, studentsBySchool } = useStudent();
   const [open, setOpen] = useState(false);
   const [avatar, setAvatar] = useState(user?.image);
+  const { anouncements } = useAnouncement();
   useEffect(() => {
     if (!user?.school) return;
     fetchClassesBySchool(user?.school);
@@ -216,7 +218,7 @@ const TeacherProfile = () => {
                   </span>
                 </Link>
                 <Link
-                  to="/teacher/chat"
+                  to={`${anouncements?.length <= 0 ? "/teacher/announcement/form" : "/teacher/announcement"}`}
                   className="flex lg:hidden w-full items-center gap-2 p-4 border border-gray-100 rounded-lg text-textc2-700"
                 >
                   <Megaphone size={20} />

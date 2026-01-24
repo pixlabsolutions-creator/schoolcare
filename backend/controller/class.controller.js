@@ -1,4 +1,5 @@
 const Class = require("../models/classes.model");
+const Student = require("../models/student.model");
 
 const createNewClass = async (req, res) => {
   const { name, school } = req.body;
@@ -51,7 +52,28 @@ const getClassById = async (req, res) => {
 const deleteClass = async (req, res) => {
   try {
     const { id } = req.params;
+    const { school } = req.query;
 
+    const classFind = await Class.findById(id);
+    if (!classFind) {
+      return res.status(404).json({
+        success: false,
+        message: "Class not found",
+      });
+    }
+    const classNamae = classFind.name;
+
+    const findStudent = await Student.deleteMany({
+      classId: classNamae,
+      school,
+    });
+
+    if (!findStudent) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found in this class",
+      });
+    }
     const deletedClass = await Class.findByIdAndDelete(id);
 
     if (!deletedClass) {

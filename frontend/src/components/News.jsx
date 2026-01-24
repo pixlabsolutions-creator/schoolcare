@@ -11,7 +11,6 @@ export default function News() {
     image: null,
     title: "",
     descriptions: "",
-    school: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -35,7 +34,6 @@ export default function News() {
       data.append("image", formData.image);
       data.append("title", formData.title);
       data.append("descriptions", formData.descriptions);
-      data.append("school", formData.school);
 
       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/news`, {
         method: "POST",
@@ -53,7 +51,6 @@ export default function News() {
           image: null,
           title: "",
           descriptions: "",
-          school: "",
         });
       } else {
         alert(result.message);
@@ -97,16 +94,6 @@ export default function News() {
             onChange={handleChange}
             className="w-full border p-2 rounded"
             rows={4}
-            required
-          />
-
-          <input
-            type="text"
-            name="school"
-            placeholder="School Name"
-            value={formData.school}
-            onChange={handleChange}
-            className="w-full border p-2 rounded"
             required
           />
 

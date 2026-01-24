@@ -1,4 +1,4 @@
-import { ArrowLeft, Eye, MessageCircle, MoveLeft } from "lucide-react";
+import { ArrowLeft, Eye, Heart, MessageCircle, MoveLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useEffect } from "react";
@@ -40,13 +40,13 @@ const StudentNewsDetail = () => {
             {/* Stats */}
             <div className="grid grid-cols-2 border border-gray-100 p-3 rounded-xl divide-x-2">
               <div className="col-span-1 flex flex-row items-center justify-center space-x-2">
-                <Eye size={14} />
+                <Eye size={20} />
                 <span className="text-[14px]">32</span>
               </div>
 
               <div className="col-span-1 flex flex-row items-center justify-center space-x-2">
-                <MessageCircle size={14} />
-                <span className="text-[14px]">54 Comment</span>
+                <Heart size={20} />
+                <span className="text-[14px]">54 </span>
               </div>
             </div>
           </div>

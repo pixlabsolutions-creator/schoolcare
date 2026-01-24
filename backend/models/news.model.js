@@ -21,17 +21,6 @@ const newsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    school: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    conmment: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
     like: {
       type: Number,
       default: 0,
