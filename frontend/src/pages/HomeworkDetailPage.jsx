@@ -3,16 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useHomework } from "../contexts/HomeworkContext";
 import { useEffect } from "react";
 import Homeworkicon from "../assets/homeworkicon.png";
+import { useAuth } from "../contexts/AuthContext";
 
-const TeacherHomeworkDetailPage = () => {
+const HomeworkDetailPage = () => {
   const navigate = useNavigate();
-
+  const { user } = useAuth();
   const { id } = useParams();
-  const { fetchHomeworksById, homeworkById } = useHomework();
-  console.log(homeworkById);
+  const { fetchHomeworksById, homeworkById, updateLike } = useHomework();
+
   useEffect(() => {
     fetchHomeworksById(id);
   }, [id]);
+  const isLiked = homeworkById[0]?.like?.likerId?.includes(user?.userId);
 
   const date = new Date(homeworkById[0]?.createdAt);
   const formattedDate = date.toLocaleDateString("en-GB", {
@@ -58,10 +60,15 @@ const TeacherHomeworkDetailPage = () => {
                 <Eye size={17} />
                 <span>32</span>
               </div>
-              <div className="flex flex-row items-center justify-center space-x-2">
-                <Heart size={17} />
-                <span>1k</span>
-              </div>
+              <button
+                className={`col-span-1 flex flex-row items-center justify-center space-x-2 ${
+                  isLiked ? "text-red-500" : "text-textc1-700"
+                }`}
+                onClick={() => updateLike(homeworkById[0]?._id, user?.userId)}
+              >
+                {isLiked ? <Heart fill="red" size={16} /> : <Heart size={16} />}
+                <span>{homeworkById[0]?.like?.likerId?.length}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -83,17 +90,22 @@ const TeacherHomeworkDetailPage = () => {
               alt=""
             />
             <div className="py-4 font-kalpurush text-[24px] text-justify">
-              <h2>{homeworkById[0].details}</h2>
+              <h2>{homeworkById[0]?.details}</h2>
             </div>
             <div className="grid grid-cols-2 border border-gray-100 p-4 rounded-xl divide-x-2">
               <div className="flex flex-row items-center justify-center space-x-2">
                 <Eye />
                 <span>32</span>
               </div>
-              <div className="flex flex-row items-center justify-center space-x-2">
-                <Heart />
-                <span>1K</span>
-              </div>
+              <button
+                className={`col-span-1 flex flex-row items-center justify-center space-x-2 ${
+                  isLiked ? "text-red-500" : "text-textc1-700"
+                }`}
+                onClick={() => updateLike(homeworkById[0]?._id, user?.userId)}
+              >
+                {isLiked ? <Heart fill="red" size={16} /> : <Heart size={16} />}
+                <span>{homeworkById[0]?.like?.likerId?.length}</span>
+              </button>
             </div>
           </div>
         </div>
@@ -102,4 +114,4 @@ const TeacherHomeworkDetailPage = () => {
   );
 };
 
-export default TeacherHomeworkDetailPage;
+export default HomeworkDetailPage;

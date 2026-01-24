@@ -84,6 +84,16 @@ const getAllstudent = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+// ==========Get Students For Admin===========
+const getAllstudentForAdmin = async (req, res) => {
+  try {
+    const student = await Student.find();
+
+    res.status(200).json(student);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
 
 // ===========Get Students by Class ===========
 
@@ -140,7 +150,10 @@ const deleteStudent = async (req, res) => {
       return res.status(404).send("Student not found");
     }
 
-    res.status(200).json(student);
+    res.status(200).json({
+      success: true,
+      message: "Student successfully Delete",
+    });
   } catch (error) {
     res.status(500).send("Internal Server Error");
   }
@@ -161,6 +174,26 @@ const logoutStudent = async (req, res) => {
   res.status(200).json({ message: "Logout" });
 };
 
+const studentBlock = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.query;
+
+    const student = await Student.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true },
+    );
+
+    res.json({
+      success: true,
+      student,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createStudent,
   getAllstudent,
@@ -169,4 +202,6 @@ module.exports = {
   logoutStudent,
   studentProfile,
   getStudentByClass,
+  studentBlock,
+  getAllstudentForAdmin,
 };

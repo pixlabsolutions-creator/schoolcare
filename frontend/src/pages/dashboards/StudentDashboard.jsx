@@ -232,7 +232,9 @@ const StudentDashboard = () => {
       {/* Bottom Section */}
       <div className="flex flex-col space-y-1 lg:space-y-4">
         {/* Homework */}
-        <div className="flex flex-col lg:rounded-2xl  lg:bg-white   lg:p-5 relative">
+        <div
+          className={`${studentHomeworkByClass.length <= 0 ? "hidden" : "flex"} flex-col lg:rounded-2xl  lg:bg-white   lg:p-5 relative`}
+        >
           <div className="flex justify-between mb-1 items-center">
             <h3 className="font-lexend font-semibold text-[17px] lg:text-2xl text-textc1-700">
               Homework today
@@ -240,7 +242,7 @@ const StudentDashboard = () => {
 
             <Link
               to="/student/homework"
-              className="text-[13px] lg:text-[17px] text-primary-700"
+              className="text-[14px] lg:text-2xl text-primary-700"
             >
               See All
             </Link>
@@ -283,17 +285,18 @@ const StudentDashboard = () => {
             </div>
           )}
         </div>
-        {/* ========================Notice=================================== */}
-        <div className="hidden lg:flex flex-col  bg-white rounded-2xl lg:p-5 border border-gray-100 relative ">
+        {/* ==================================================================================================================== */}
+        {/* ========================Notice Desktop=================================== */}
+        {/* ==================================================================================================================== */}
+        <div
+          className={`${anouncements.length <= 0 ? "hidden " : "hidden lg:flex"}   flex-col  bg-white rounded-2xl lg:p-5 border border-gray-100 relative`}
+        >
           <div className="flex justify-between mb-3">
             <h3 className="font-semibold text-[17px] lg:text-2xl text-textc1-700 font-lexend">
               Importent Notice
             </h3>
 
-            <Link
-              to="notice"
-              className="text-[17px] lg:text-2xl text-primary-700"
-            >
+            <Link to="notice" className="text-2xl text-primary-700">
               See All
             </Link>
           </div>
@@ -309,7 +312,6 @@ const StudentDashboard = () => {
                 <NoticeAnnouncement
                   title={anouncement.title}
                   descriptions={anouncement.descriptions}
-                  like={anouncement.like}
                   teacher={anouncement.teacher}
                   comment={anouncement.conmment}
                   id={anouncement._id}
@@ -325,16 +327,17 @@ const StudentDashboard = () => {
           )}
         </div>
 
-        {/* ===========Mobile================== */}
-        <div className="lg:hidden flex flex-col   lg:bg-white lg:p-2  py-2">
+        {/* ==================================================================================================================== */}
+        {/* ========================Notice Mobile=================================== */}
+        {/* ==================================================================================================================== */}
+        <div
+          className={`${anouncements.length <= 0 ? "hidden " : "flex lg:hidden"} flex-col   lg:bg-white lg:p-2  py-2`}
+        >
           <div className="flex justify-between mb-1 items-center">
             <h3 className="font-semibold text-[17px] font-lexend lg:text-2xl text-textc1-700">
               Importent Notice
             </h3>
-            <Link
-              to="notice"
-              className="text-[13px] lg:text-2xl text-primary-700"
-            >
+            <Link to="notice" className="text-[14px]  text-primary-700">
               See All
             </Link>
           </div>
@@ -345,7 +348,6 @@ const StudentDashboard = () => {
                 <NoticeAnnouncementMobile
                   title={anouncement.title}
                   descriptions={anouncement.descriptions}
-                  like={anouncement.like}
                   teacher={anouncement.teacher}
                   comment={anouncement.conmment}
                   id={anouncement._id}
@@ -361,16 +363,14 @@ const StudentDashboard = () => {
           )}
         </div>
 
-        {/* Popular News */}
+        {/* ==================================================================================================================== */}
+        {/* ========================Popular News Desktop=================================== */}
+        {/* ==================================================================================================================== */}
         <div className="hidden lg:flex flex-col bg-white rounded-2xl lg:p-5 border border-gray-100">
           <div className="flex justify-between mb-3">
             <h3 className="font-semibold  text-[17px] font-lexend lg:text-2xl text-textc1-700">
               Popular News
             </h3>
-
-            <span className="text-[17px] lg:text-2xl text-primary-700">
-              See All
-            </span>
           </div>
 
           {newsBySchool && newsBySchool.length > 0 ? (
@@ -411,16 +411,14 @@ const StudentDashboard = () => {
           )}
         </div>
 
-        {/* Popular News Mobile*/}
+        {/* ==================================================================================================================== */}
+        {/* ========================Popular News Mobile=================================== */}
+        {/* ==================================================================================================================== */}
         <div className="lg:hidden flex flex-col   ">
           <div className="flex justify-between mb-1 items-center">
             <h3 className="font-semibold font-lexend text-[17px] lg:text-2xl text-textc1-700">
               Popular News
             </h3>
-
-            <span className="text-[13px] text-primary-700 lg:text-2xl">
-              See All
-            </span>
           </div>
 
           {newsBySchool && newsBySchool.length > 0 ? (
@@ -431,7 +429,7 @@ const StudentDashboard = () => {
                   className=" flex flex-row items-center justify-start space-x-4  p-2 rounded-[12px] bg-white"
                 >
                   <img
-                    className="rounded-md w-[76px] h-[76px]"
+                    className="rounded-md w-[65px] h-[65px] lg:w-[76px] lg:h-[76px]"
                     src={s.image}
                     alt=""
                   />
@@ -474,9 +472,9 @@ export default StudentDashboard;
 const NoticeAnnouncement = ({
   title,
   descriptions,
-  like,
+
   teacher,
-  comment,
+
   id,
 }) => {
   return (
@@ -485,16 +483,16 @@ const NoticeAnnouncement = ({
       className="col-span-1 flex flex-col space-y-4 border border-gray-100 p-4 rounded-2xl"
     >
       <div className="flex flex-row items-center justify-between border border-gray-100 rounded-2xl p-2">
-        <div className="flex flex-row items-center justidy-start space-x-2">
+        <div className="flex flex-row items-center justidy-start space-x-4">
           <img
             className="w-[65px] h-[67px] lg:w-[54px] lg:h-[56px]"
             src={Notice2}
             alt=""
           />
           <div>
-            <h2 className="text-[14px] font-lexend">Announcement</h2>
-            <h2 className="text-[12px] text-gray-500 capitalize">{teacher}</h2>
-            <p className="text-[12px] text-gray-400">30/12/25</p>
+            <h2 className="text-[17px] font-lexend">Announcement</h2>
+            <h2 className="text-[14px] text-gray-500 capitalize">{teacher}</h2>
+            <p className="text-[14px] text-gray-400">30/12/25</p>
           </div>
         </div>
       </div>
@@ -509,10 +507,10 @@ const NoticeAnnouncement = ({
       </div>
       <div className="grid grid-cols-2 border border-gray-100 p-3 rounded-lg ">
         <span className="col-span-1 text-center flex items-center justify-center">
-          <Eye /> <span className="pl-1">{like}</span>
+          <Eye /> <span className="pl-1">0</span>
         </span>
         <span className="col-span-1 flex items-center justify-center">
-          <Heart /> <span className="pl-1">{comment?.length}</span>
+          <Heart /> <span className="pl-1">0</span>
         </span>
       </div>
     </Link>
@@ -525,7 +523,7 @@ const NoticeAnnouncementMobile = ({ title, descriptions, id }) => {
       className="bg-white flex flex-row items-center justify-between rounded-[12px] p-2"
     >
       <div className="flex flex-row items-center justidy-start space-x-2">
-        <img className="w-36" src={Notice2} alt="" />
+        <img className="w-[65px]" src={Notice2} alt="" />
         <div className="flex flex-col items-start ">
           <div className="flex flex-row items-center justify-between w-full">
             <h2 className="text-[14px] font-lexend">Announcement</h2>

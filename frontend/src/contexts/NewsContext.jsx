@@ -6,30 +6,29 @@ const NewsContext = createContext();
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const NewsProvider = ({ children }) => {
+  const [allNews, setAllNews] = useState([]);
   const [newsBySchool, setNewsBySchool] = useState([]);
   const [newsById, setNewsById] = useState({});
+  const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  /* ===== Add Homework ===== */
-  //   const addSchool = async (formData, image) => {
-  //     try {
-  //       const data = new FormData();
-  //       Object.keys(formData).forEach((key) => {
-  //         data.append(key, formData[key]);
-  //       });
-  //       if (image) data.append("image", image);
+  useEffect(() => {
+    const fetchAllNews = async () => {
+      try {
+        const res = await fetch(`${baseUrl}/api/news`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setAllNews(data);
+      } catch (err) {
+        setAllNews([]);
+        toast.error("Failed to load News");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //       const res = await axios.post(`${baseUrl}/api/schools`, data);
-
-  //       setSchools((prev) => [...prev, res.data.data]);
-  //       toast.success("School added successfully");
-  //       return true;
-  //     } catch (err) {
-  //       toast.error(err.response?.data?.message || "Failed to add school");
-  //       return false;
-  //     }
-  //   };
-  //   // ==============fetch by Id=========================
+    fetchAllNews();
+  }, []);
 
   const fetchNewsBySchool = async (school) => {
     try {
@@ -62,23 +61,24 @@ export const NewsProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  // ============================Delete School========================
 
-  //   const deleteSchool = async (id) => {
-  //     try {
-  //       console.log(id);
-  //       const res = await axios.delete(`${baseUrl}/api/schools/${id}`);
+  const deleteNews = async (id) => {
+    try {
+      const res = await axios.delete(`${baseUrl}/api/news/${id}`);
 
-  //       setSchools((prev) => prev.filter((school) => school._id !== id));
-  //       setOpenModal(false);
-  //       toast.success("School deleted successfully");
-  //       return true;
-  //     } catch (error) {
-  //       console.error(error);
-  //       toast.error(error.response?.data?.message || "Failed to delete school");
-  //       return false;
-  //     }
-  //   };
+      if (res.data.success) {
+        toast.success("News deleted successfully");
+
+        setAllNews((prev) => prev.filter((news) => news._id !== id));
+        setOpenModal(false);
+      } else {
+        toast.error(res.data.message || "Delete failed");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error(error);
+    }
+  };
 
   return (
     <NewsContext.Provider
@@ -87,6 +87,11 @@ export const NewsProvider = ({ children }) => {
         newsBySchool,
         fetchNewsById,
         newsById,
+        allNews,
+        setAllNews,
+        deleteNews,
+        openModal,
+        setOpenModal,
       }}
     >
       {children}

@@ -23,15 +23,8 @@ const AnouncementSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    conmment: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
     like: {
-      type: Number,
-      default: 0,
+      likerId: [String],
     },
   },
   { timestamps: true },

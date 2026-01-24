@@ -68,7 +68,6 @@ export const SchoolProvider = ({ children }) => {
 
   const deleteSchool = async (id) => {
     try {
-      console.log(id);
       const res = await axios.delete(`${baseUrl}/api/schools/${id}`);
 
       setSchools((prev) => prev.filter((school) => school._id !== id));

@@ -1,7 +1,6 @@
 const express = require("express");
 const upload = require("../middleware/upload");
 const {
-  getAllUsers,
   createUser,
   loginUser,
   updateUser,
@@ -10,12 +9,16 @@ const {
   logoutUser,
   fetchTeacherBySchool,
   updateUserImage,
+  getAllUsers,
+  getAllUsersForAdmin,
+  deleteTeacher,
 } = require("../controller/user.controller");
 const authUser = require("../middleware/authMiddleware");
 const router = express.Router();
 
 router.get("/", getAllUsers);
 router.post("/", createUser);
+router.delete("/:id", deleteTeacher);
 router.post("/login", loginUser);
 router.get("/profile", authUser, userProfile);
 router.get("/logout", authUser, logoutUser);

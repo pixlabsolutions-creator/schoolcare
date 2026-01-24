@@ -17,7 +17,7 @@ const TeacherHomeworkDetailPage = () => {
     fetchHomeworksById(id);
   }, [id]);
 
-  const isLiked = homeworkById[0]?.like.likerId.includes(user.userId);
+  const isLiked = homeworkById[0]?.like?.likerId?.includes(user?.userId);
 
   return (
     <div className="flex flex-col items-center  bg-white rounded-2xl lg:min-h-screen">
@@ -67,7 +67,7 @@ const TeacherHomeworkDetailPage = () => {
           image={Homeworkicon}
           id={homeworkById[0]?._id}
         />
-        <div className=" space-y-3  text-justify">
+        <div className=" space-y-3  text-justify font-kalpurush">
           {/* Bangla Description */}
           <p>{homeworkById[0]?.details}</p>
           {/* Stats */}

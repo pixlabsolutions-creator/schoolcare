@@ -7,6 +7,7 @@ const {
   updateSchool,
   deleteSchool,
 } = require("../controller/school.controller");
+const { getAllstudentForAdmin } = require("../controller/student.controller");
 
 const router = express.Router();
 

@@ -161,7 +161,14 @@ const ClassWiseAttendance = () => {
           setSelectedDate={setSelectedDate}
         />
       </div>
-
+      {currentAttendanceRecord && (
+        <div className="text-[13px] text-justify bg-white border border-primary-700 lg:m-4 my-2 p-2 rounded-lg">
+          <h2>
+            You have already published this attendance. You cannot publish it
+            again, and editing is not allowed.
+          </h2>
+        </div>
+      )}
       {/* ===== Attendance List ===== */}
       <div className="lg:p-4 flex flex-col gap-4 pb-4">
         {loading ? (
@@ -183,6 +190,7 @@ const ClassWiseAttendance = () => {
                 <h2>Absent</h2>
               </div>
             </div>
+
             {classStudents.map((item) => (
               <AttendanceCard
                 key={item._id}
@@ -217,7 +225,7 @@ const ClassWiseAttendance = () => {
               </button>
             )}
           </>
-        ) : currentAttendanceRecord ? (
+        ) : !currentAttendanceRecord ? (
           <button className=" flex-1 flex items-center justify-center px-8 py-3 rounded-[10px] bg-white text-amber-500 border border-amber-500 hover:bg-amber-600 transition-colors">
             Submitted
           </button>
@@ -234,7 +242,6 @@ const Header = ({
   handleSubmit,
   isEditMode,
   currentAttendanceRecord,
-  onEditClick,
   onCancelEdit,
 }) => (
   <div className="flex flex-row items-center justify-between lg:bg-white lg:px-4 py-4 lg:py-8 rounded-t-2xl lg:border-b lg:border-gray-200">
@@ -262,10 +269,6 @@ const Header = ({
             </button>
           )}
         </>
-      ) : currentAttendanceRecord ? (
-        <button className="flex items-center justify-center space-x-2 px-8 py-3 rounded-[10px] bg-white text-amber-600 border border-amber-600 transition-colors">
-          Submitted
-        </button>
       ) : null}
     </div>
   </div>

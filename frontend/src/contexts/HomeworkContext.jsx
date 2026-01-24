@@ -8,7 +8,7 @@ export const HomeworkProvider = ({ children }) => {
   const [homework, setHomework] = useState([]);
   const [homeworkByClass, setHomeworkByClass] = useState([]);
   const [studentHomeworkByClass, setStudentHomeworkByClass] = useState([]);
-  const [homeworkById, setHomeworkById] = useState({});
+  const [homeworkById, setHomeworkById] = useState([]);
   const [loading, setLoading] = useState(true);
 
   /* ===== Fetch all homeworks ===== */
@@ -107,7 +107,7 @@ export const HomeworkProvider = ({ children }) => {
       );
       if (!res.ok) throw new Error("Failed to fetch");
       const data = await res.json();
-      setHomeworkById(data);
+      setHomeworkById(Array.isArray(data) ? data : [data]);
     } catch (err) {
       setHomeworkById([]);
       toast.error("Failed to load Homework");
@@ -118,30 +118,21 @@ export const HomeworkProvider = ({ children }) => {
 
   // ==================Like & View =============================
 
-  // const updateLike = async (id, userId) => {
-  //   try {
-  //     const { data } = await axios.put(
-  //       `${import.meta.env.VITE_BASE_URL}/api/homework/like/${id}?userId=${userId}`,
-  //     );
-  //     toast.success(data.message);
-  //   } catch (error) {
-  //     toast.error("Failed to Like Homework");
-  //   }
-  // };
-
   const updateLike = async (id, userId) => {
     try {
       setHomeworkById((prev) =>
         prev.map((hw) => {
           if (hw._id === id) {
-            const liked = hw.like.likerId.includes(userId);
+            const likerList = hw.like?.likerId || [];
+            const liked = likerList.includes(userId);
+
             return {
               ...hw,
               like: {
                 ...hw.like,
                 likerId: liked
-                  ? hw.like.likerId.filter((u) => u !== userId)
-                  : [...hw.like.likerId, userId],
+                  ? likerList.filter((u) => u !== userId)
+                  : [...likerList, userId],
               },
             };
           }
@@ -149,12 +140,11 @@ export const HomeworkProvider = ({ children }) => {
         }),
       );
 
-      // Backend update
-      const { data } = await axios.put(
+      await axios.put(
         `${import.meta.env.VITE_BASE_URL}/api/homework/like/${id}?userId=${userId}`,
       );
     } catch (error) {
-      console.error("Failed to Like Homework");
+      console.error("Failed to Like Homework", error);
     }
   };
 

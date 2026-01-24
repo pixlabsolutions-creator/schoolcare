@@ -17,7 +17,9 @@ const ClassDeleteModal = ({ setDeleteModal, handleDelete, id }) => {
           No
         </button>
         <button
-          onClick={() => handleDelete(id)}
+          onClick={() => {
+            handleDelete(id);
+          }}
           className="bg-white text-primary-700 border border-primary-700 py-2 w-full rounded-md"
         >
           Yes

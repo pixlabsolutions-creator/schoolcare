@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useSchool } from "../contexts/SchoolContext";
+import { useNavigate } from "react-router-dom";
 
 const roles = ["admin", "teacher", "student", "accountant"];
 
 const TeacherAddModal = ({ setUsers, setOpenModal }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     school: "",
@@ -21,7 +23,7 @@ const TeacherAddModal = ({ setUsers, setOpenModal }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const schoolList = schools?.map((school) => school.school);
-  console.log(schoolList);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -64,7 +66,7 @@ const TeacherAddModal = ({ setUsers, setOpenModal }) => {
       }
 
       setMessage("User created successfully ✅");
-
+      navigate(-1);
       setFormData({
         username: "",
         school: "",

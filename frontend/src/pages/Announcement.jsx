@@ -1,4 +1,11 @@
-import { MoveLeft, EyeOff, Trash2, Eye, EllipsisVertical } from "lucide-react";
+import {
+  MoveLeft,
+  EyeOff,
+  Trash2,
+  Eye,
+  EllipsisVertical,
+  Heart,
+} from "lucide-react";
 import { GoPlus } from "react-icons/go";
 import Notice from "../assets/notice2.png";
 import { Link } from "react-router-dom";
@@ -8,11 +15,12 @@ import BlockModal from "../components/ui/BlockModal";
 import ClassDeleteModal from "../components/ClassDeleteModal";
 
 const Announcement = () => {
-  const { anouncements, loading } = useAnouncement();
+  const { anouncements, deleteAnouncement, openModal, setOpenModal } =
+    useAnouncement();
   const [activeAnouncementId, setActiveAnouncementId] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
-  const modalRef = useRef(null);
 
+  const modalRef = useRef(null);
+  const [deleteId, setDeleteId] = useState(null);
   const handleToggle = (id) => {
     setActiveAnouncementId((prev) => (prev === id ? null : id));
   };
@@ -42,13 +50,22 @@ const Announcement = () => {
     },
   ];
 
-  const handleDelete = () => {
-    alert("Anouncement Deleted");
-  };
+  function formatDateToDDMMMYY(date) {
+    const options = {
+      day: "2-digit",
+      month: "short",
+      year: "2-digit",
+    };
+
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      date,
+    );
+    return formattedDate.replace(/\//g, "-");
+  }
 
   return (
     <div className="relative">
-      <div className="lg:bg-white lg:pb-20 lg:min-h-screen rounded-2xl">
+      <div className="lg:bg-white lg:pb-20 lg:min-h-screen rounded-2xl space-y-4">
         {/* ===== Header ===== */}
         <div className="flex flex-row items-center justify-between lg:px-4 lg:py-8 lg:border-b lg:border-gray-200">
           <div className="flex flex-row items-center justify-start space-x-4 ">
@@ -71,21 +88,19 @@ const Announcement = () => {
           ref={modalRef}
         >
           {anouncements.map((anouncement) => (
-            <div className="bg-white col-span-1 flex flex-col space-y-4 border border-gray-100 p-2 lg:p-4 rounded-[14px] relative">
+            <div className="bg-white col-span-1 flex flex-col space-y-4 border border-gray-100 p-2  lg:p-4 rounded-[14px] relative">
               <div className="flex flex-row items-center justify-between border border-gray-100 rounded-lg p-2">
                 <div className="flex flex-row items-center justidy-start space-x-2">
                   <div className="">
-                    <img className="w-[56px] h-[56px]" src={Notice} alt="" />
+                    <img className="w-[58px] h-[58px]" src={Notice} alt="" />
                   </div>
-                  <div className="text-[14px]">
-                    <h2 className="text-[14px] lg:text-[24px] font-lexend">
-                      Announcement
-                    </h2>
-                    <h2 className="text-[14px] lg:text-[17px] text-gray-500 capitalize">
+                  <div className="flex flex-col items-start">
+                    <h2 className="text-[14px]  font-lexend">Announcement</h2>
+                    <h2 className="text-[14px]  text-gray-500 capitalize">
                       {anouncement.teacher}
                     </h2>
-                    <p className="text-[12px] lg:text-[17px] text-gray-400">
-                      30/12/25
+                    <p className="text-[14px]  text-gray-400">
+                      {formatDateToDDMMMYY(anouncement.createAt)}
                     </p>
                   </div>
                 </div>
@@ -101,7 +116,13 @@ const Announcement = () => {
 
                   {activeAnouncementId === anouncement._id && (
                     <div className="absolute right-3 top-14 z-50">
-                      <BlockModal titels={titels} setOpenModal={setOpenModal} />
+                      <BlockModal
+                        titels={titels}
+                        setOpenModal={setOpenModal}
+                        setDeleteId={setDeleteId}
+                        schoolId={anouncement._id}
+                        handleToggle={handleToggle}
+                      />
                     </div>
                   )}
                 </div>
@@ -118,13 +139,12 @@ const Announcement = () => {
                   <span className="text-[#9542E7]">Read More..</span>
                 </p>
               </Link>
-              <div className="grid grid-cols-2 border border-blue-100 p-2 lg:p-3 rounded-[12px] ">
+              <div className="grid grid-cols-2 border border-gray-100 p-2 lg:p-3 rounded-[12px] ">
                 <span className="col-span-1 text-center flex items-center justify-center">
-                  <Eye size={17} />{" "}
-                  <span className="pl-1">{anouncement.like}</span>
+                  <Eye size={20} /> <span className="pl-1">{0}</span>
                 </span>
-                <span className="col-span-1 flex items-center justify-center">
-                  {anouncement.comment?.length} Comment
+                <span className="col-span-1 flex items-center justify-center space-x-2">
+                  <Heart size={20} /> <span>1K</span>
                 </span>
               </div>
             </div>
@@ -152,7 +172,8 @@ const Announcement = () => {
           <div className="relative bg-white w-[90%] max-w-[380px] rounded-xl p-2 lg:p-6 z-10">
             <ClassDeleteModal
               setDeleteModal={setOpenModal}
-              handleDelete={handleDelete}
+              handleDelete={deleteAnouncement}
+              id={deleteId}
             />
           </div>
         </div>

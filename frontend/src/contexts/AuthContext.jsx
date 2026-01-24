@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -5,12 +6,35 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [teachers, setTeachers] = useState([]);
+  const [allTeachers, setAllTeachers] = useState([]);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [openModal, setOpenModal] = useState(false);
   const [userRole, setUserRole] = useState(
     localStorage.getItem("userRole") || null,
   );
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeachersByAdmin = async (school) => {
+      try {
+        const url = `${import.meta.env.VITE_BASE_URL}/api/user`;
+
+        const res = await fetch(url);
+
+        if (!res.ok) throw new Error("Unauthorized");
+
+        const data = await res.json();
+
+        setAllTeachers(data);
+      } catch (err) {
+        setAllTeachers(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTeachersByAdmin();
+  }, [token]);
 
   const fetchTeachersBySchool = async (school) => {
     try {
@@ -134,6 +158,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const deleteTeacher = async (id) => {
+    try {
+      const res = await axios.delete(
+        `${import.meta.env.VITE_BASE_URL}/api/user/${id}`,
+      );
+
+      toast.success("Teacher deleted successfully");
+      setOpenModal(false);
+      setTeachers((prev) => prev.filter((user) => user._id !== id));
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -145,6 +184,10 @@ export const AuthProvider = ({ children }) => {
         loading,
         fetchTeachersBySchool,
         teachers,
+        allTeachers,
+        deleteTeacher,
+        openModal,
+        setOpenModal,
       }}
     >
       {children}

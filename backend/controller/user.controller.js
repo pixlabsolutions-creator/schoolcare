@@ -49,7 +49,7 @@ const createUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).send("Internal Server Error");
@@ -188,6 +188,37 @@ const updateUserImage = async (req, res) => {
   }
 };
 
+const deleteTeacher = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // 1. Check if news exists
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Teacher not found",
+      });
+    }
+
+    // 2. Delete news from MongoDB
+    await User.findByIdAndDelete(id);
+
+    // 4. Send response
+    res.status(200).json({
+      success: true,
+      message: "Teacher deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete Teacher Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -198,4 +229,5 @@ module.exports = {
   logoutUser,
   fetchTeacherBySchool,
   updateUserImage,
+  deleteTeacher,
 };

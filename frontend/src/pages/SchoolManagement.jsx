@@ -16,7 +16,6 @@ const SchoolManagement = () => {
   const { schools, deleteSchool, openModal, setOpenModal } = useSchool();
   const [activeSchoolId, setActiveSchoolId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
-
   const modalRef = useRef(null);
 
   const handleToggle = (id) => {

@@ -10,6 +10,8 @@ const {
   deleteStudent,
   studentProfile,
   getStudentByClass,
+  studentBlock,
+  getAllstudentForAdmin,
 } = require("../controller/student.controller");
 
 const router = express.Router();
@@ -27,5 +29,9 @@ router.get("/profile", studentAuth, studentProfile);
 router.get("/logout", studentAuth, logoutStudent);
 
 router.delete("/:id", deleteStudent);
+
+router.get("/admin", getAllstudentForAdmin);
+
+router.put("/status/:id", studentBlock);
 
 module.exports = router;

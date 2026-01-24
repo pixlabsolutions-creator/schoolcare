@@ -22,7 +22,7 @@ const Homework = require("./models/homework.model");
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -30,6 +30,7 @@ const io = new Server(server, {
 
 global.io = io;
 // =======================Route Require======================
+const adminRouter = require("./router/admin.route");
 const userRouter = require("./router/user.route");
 const studentRouter = require("./router/student.route");
 const classRouter = require("./router/class.route");
@@ -43,7 +44,7 @@ const newsRoute = require("./router/news.route");
 // ===================MiddleWere=====================
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || "*",
     credentials: true,
   }),
 );
@@ -67,6 +68,7 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+app.use("/api/admin", adminRouter);
 app.use("/api/user", userRouter);
 app.use("/api/student", studentRouter);
 app.use("/api/classes", classRouter);

@@ -17,7 +17,14 @@ const TeacherPanel = () => {
   const { id } = useParams();
   const { fetchSchoolById, schoolById } = useSchool();
 
-  const { fetchTeachersBySchool, teachers } = useAuth();
+  const {
+    fetchTeachersBySchool,
+    teachers,
+    deleteTeacher,
+    openModal,
+    setOpenModal,
+  } = useAuth();
+
   useEffect(() => {
     if (!id) return;
     fetchSchoolById(id);
@@ -28,20 +35,19 @@ const TeacherPanel = () => {
     fetchTeachersBySchool(schoolById["data"]?.school);
   }, []);
 
-  const { schools, deleteSchool, openModal, setOpenModal } = useSchool();
-  const [activeSchoolId, setActiveSchoolId] = useState(null);
+  const [activeTeacherId, setActiveTeacherId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
   const modalRef = useRef(null);
 
   const handleToggle = (id) => {
-    setActiveSchoolId((prev) => (prev === id ? null : id));
+    setActiveTeacherId((prev) => (prev === id ? null : id));
   };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
-        setActiveSchoolId(null);
+        setActiveTeacherId(null);
       }
     };
 
@@ -89,7 +95,7 @@ const TeacherPanel = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
         {teachers.map((teacher, i) => (
           <div
-            ref={activeSchoolId === teacher._id ? modalRef : null}
+            ref={activeTeacherId === teacher._id ? modalRef : null}
             className={` col-span-1 flex flex-col items-start justify-start border border-gray-100 p-[12px] rounded-[14px] space-y-2 relative`}
             key={i}
           >
@@ -111,13 +117,14 @@ const TeacherPanel = () => {
                 <EllipsisVertical size={17} />
               </button>
 
-              {activeSchoolId === teacher._id && (
+              {activeTeacherId === teacher._id && (
                 <div className="absolute right-6 top-10 z-50">
                   <BlockModal
                     titels={titels}
                     setOpenModal={setOpenModal}
                     setDeleteId={setDeleteId}
                     schoolId={teacher._id}
+                    handleToggle={handleToggle}
                   />
                 </div>
               )}
@@ -136,7 +143,7 @@ const TeacherPanel = () => {
           <div className="relative bg-white w-[90%] max-w-[380px] rounded-xl p-2 lg:p-6 z-10">
             <ClassDeleteModal
               setDeleteModal={setOpenModal}
-              handleDelete={deleteSchool}
+              handleDelete={deleteTeacher}
               id={deleteId}
             />
           </div>

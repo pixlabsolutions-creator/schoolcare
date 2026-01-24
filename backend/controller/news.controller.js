@@ -1,9 +1,5 @@
 const cloudinary = require("../config/cloudinary");
 const News = require("../models/news.model");
-const Notification = require("../models/notification.model");
-const NotificationRead = require("../models/notificationRead.model");
-const User = require("../models/user.model");
-const Student = require("../models/student.model");
 
 const createNews = async (req, res) => {
   try {
@@ -40,6 +36,19 @@ const createNews = async (req, res) => {
   }
 };
 
+// =====================Get All News =================
+
+const getAllNews = async (req, res) => {
+  try {
+    const news = await News.find();
+    if (!news) {
+      return res.status(401).json({ message: "News Not Found" });
+    }
+    res.status(200).json(news);
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+};
 // =====================Get News By School=================
 
 const getNewsBySchool = async (req, res) => {
@@ -54,6 +63,7 @@ const getNewsBySchool = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
 const getNewsById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -68,4 +78,45 @@ const getNewsById = async (req, res) => {
   }
 };
 
-module.exports = { createNews, getNewsBySchool, getNewsById };
+const deleteNews = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const news = await News.findById(id);
+
+    if (!news) {
+      return res.status(404).json({
+        success: false,
+        message: "News not found",
+      });
+    }
+
+    // 2. Delete image from Cloudinary
+    if (news.public_id) {
+      await cloudinary.uploader.destroy(news.public_id);
+    }
+
+    // 3. Delete news from MongoDB
+    await News.findByIdAndDelete(id);
+
+    // 4. Send response
+    res.status(200).json({
+      success: true,
+      message: "News deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete News Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+module.exports = {
+  createNews,
+  getNewsBySchool,
+  getNewsById,
+  getAllNews,
+  deleteNews,
+};

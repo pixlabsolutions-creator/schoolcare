@@ -9,6 +9,7 @@ import {
   LayoutGrid,
   MessageCircleMore,
 } from "lucide-react";
+import { useAdmin } from "../../contexts/AdminContext";
 
 const navItems = [
   { to: "/admin", label: "Home", icon: Home },
@@ -20,6 +21,7 @@ const navItems = [
   { to: "/admin/terms-condition", label: "Terms & Conditions", icon: Info },
 ];
 const AdminSidebar = () => {
+  const { logout } = useAdmin();
   return (
     <aside className="hidden lg:block w-64 bg-white border-r min-h-screen px-4 py-6">
       {/* Nav */}

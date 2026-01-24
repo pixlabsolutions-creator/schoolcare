@@ -57,12 +57,7 @@ const HomeWork = () => {
               className="col-span-1 flex flex-row items-center justify-between px-4 lg:px-6 py-4 lg:py-8 border border-gray-100 rounded-2xl  lg:space-x-4 bg-white"
             >
               <div className="flex flex-col items-start justify-between w-full space-y-3 lg:space-y-6">
-                <span className="text-[17px] ">
-                  Class
-                  <span className="px-2 text-textc2-700 text-[17px]">
-                    {filterStudent(classItem.name)}
-                  </span>
-                </span>
+                <span className="text-[17px] ">Class</span>
                 <div className="text-2xl lg:text-3xl font-semibold lg:font-bold  text-gray-800">
                   {classItem.name}
                 </div>
