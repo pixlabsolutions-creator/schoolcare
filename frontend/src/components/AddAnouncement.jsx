@@ -63,7 +63,9 @@ const AddAnnouncement = () => {
 
   return (
     <div className="flex flex-col lg:bg-white min-h-screen rounded-3xl space-y-4">
-      <Header title="Add Announcement" />
+      <div className="pt-2">
+        <Header title="Add Notice" />
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -106,7 +108,7 @@ const Header = ({ title }) => (
       onClick={() => window.history.back()}
       className="cursor-pointer"
     />
-    <h1 className="text-[14px] lg:text-[24px] font-semibold text-gray-800 ml-2">
+    <h1 className="text-[17px] lg:text-[24px] font-semibold text-gray-800 ml-2">
       {title}
     </h1>
   </div>

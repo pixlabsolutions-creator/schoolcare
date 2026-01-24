@@ -62,7 +62,7 @@ const HomeWork = () => {
             >
               <div className="flex flex-col items-start justify-between w-full space-y-3 lg:space-y-6">
                 <span className="text-[17px] ">Class</span>
-                <div className="text-2xl lg:text-3xl font-semibold lg:font-bold  text-gray-800">
+                <div className="text-2xl lg:text-3xl font-semibold lg:font-bold  text-gray-800 capitalize">
                   {classItem.name}
                 </div>
               </div>

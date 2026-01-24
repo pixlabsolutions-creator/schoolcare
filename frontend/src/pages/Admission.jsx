@@ -12,6 +12,7 @@ import ClassAddModal from "../components/ClassAddModal";
 import { useClass } from "../contexts/classContext";
 import { useStudent } from "../contexts/studentContext";
 import ClassDeleteModal from "../components/ClassDeleteModal";
+import { useAuth } from "../contexts/AuthContext";
 
 const Admission = () => {
   const { classes, deleteClass } = useClass();
@@ -20,13 +21,20 @@ const Admission = () => {
   const [open, setOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [schoolId, setSchoolId] = useState(null);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user.school) return;
+    setSchoolId(user.school);
+  }, [user]);
 
   const filterStudent = (cls) =>
     students.filter((student) => student.classId === cls).length;
 
   const handleDelete = async () => {
     try {
-      await deleteClass(deleteId);
+      await deleteClass(deleteId, schoolId);
       setDeleteModal(false);
     } catch (error) {
       console.error(error);
@@ -75,7 +83,7 @@ const Admission = () => {
                     {filterStudent(classItem.name)}
                   </span>
                 </span>
-                <div className="text-2xl lg:text-3xl font-semibold lg:font-bold  text-gray-800">
+                <div className="text-2xl lg:text-3xl font-semibold lg:font-bold  text-gray-800 capitalize">
                   {classItem.name}
                 </div>
               </div>

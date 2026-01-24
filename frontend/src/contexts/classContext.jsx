@@ -63,12 +63,17 @@ export const ClassProvider = ({ children }) => {
 
   //  add new class
   const addNewClass = async (formData) => {
-    console.log(formData);
+    const payload = {
+      ...formData,
+      name: formData.name.toLowerCase(),
+      school: formData.school.toLowerCase(),
+    };
+
     try {
       const res = await fetch(`${import.meta.env.VITE_BASE_URL}/api/classes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -79,7 +84,6 @@ export const ClassProvider = ({ children }) => {
       }
 
       setClasses((prev) => [...prev, data]);
-
       toast.success("Class added successfully 🎉");
       return data;
     } catch (error) {

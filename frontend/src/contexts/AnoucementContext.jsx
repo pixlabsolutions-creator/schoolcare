@@ -139,7 +139,7 @@ export const AnouncementProvider = ({ children }) => {
       setAnouncementsById((prev) => {
         if (!prev) return prev;
 
-        const liked = prev.like.likerId.includes(userId);
+        const liked = prev?.like?.likerId?.includes(userId);
 
         return {
           ...prev,

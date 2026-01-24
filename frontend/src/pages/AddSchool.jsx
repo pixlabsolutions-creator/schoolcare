@@ -35,8 +35,12 @@ const AddSchool = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const paylode = {
+      ...formData,
+      school: formData.school.trim().toLowerCase(),
+    };
 
-    const success = await addSchool(formData, image);
+    const success = await addSchool(paylode, image);
 
     if (success) {
       setFormData({
