@@ -6,7 +6,7 @@ import { useClass } from "../contexts/classContext";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext";
 import { useStudent } from "../contexts/studentContext";
-
+import Icon from "../assets/icon.png";
 const AdmissionForm = () => {
   const { classes } = useClass();
   const { user } = useAuth();
@@ -27,7 +27,7 @@ const AdmissionForm = () => {
   });
 
   const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(Icon);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -46,8 +46,11 @@ const AdmissionForm = () => {
   };
 
   /* ===== Image Change ===== */
+
   const handleImage = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
@@ -63,8 +66,9 @@ const AdmissionForm = () => {
       Object.keys(formData).forEach((key) => {
         data.append(key, formData[key]);
       });
-      data.append("image", image);
-      console.log(data);
+      if (image) {
+        data.append("image", image);
+      }
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/api/student`,
         data,

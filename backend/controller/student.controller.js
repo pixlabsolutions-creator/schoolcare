@@ -22,12 +22,14 @@ const createStudent = async (req, res) => {
   try {
     const { name, fathername, classId, password, phone, school, teacher, dob } =
       req.body;
+
     if (!name || !fathername || !classId || !password || !school || !teacher) {
       return res.status(400).send("Missing required fields");
     }
-    const newStudentId = await getNextStudentId();
-    const isExistingUser = await Student.findOne({ studentId: newStudentId });
 
+    const newStudentId = await getNextStudentId();
+
+    const isExistingUser = await Student.findOne({ studentId: newStudentId });
     if (isExistingUser) {
       return res.status(409).send("Username already exists");
     }
@@ -39,13 +41,29 @@ const createStudent = async (req, res) => {
     const nextRoll =
       lastStudent && lastStudent.roll ? Number(lastStudent.roll) + 1 : 1;
 
-    const result = await cloudinary.uploader.upload(
-      `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
-      { folder: "student" },
-    );
+    /* ===== IMAGE HANDLE ===== */
+    let imageUrl =
+      "https://res.cloudinary.com/doyhiacif/image/upload/v1768996682/student/czlfalxwiggwakk9ia7t.png";
 
+    if (req.file) {
+      // validate
+      if (!req.file.mimetype.startsWith("image")) {
+        return res
+          .status(400)
+          .json({ message: "Only image files are allowed" });
+      }
+
+      const result = await cloudinary.uploader.upload(
+        `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`,
+        { folder: "student" },
+      );
+
+      imageUrl = result.secure_url;
+    }
+
+    /* ===== SAVE STUDENT ===== */
     const newStudent = new Student({
-      image: result ? result.secure_url : "",
+      image: imageUrl,
       studentId: newStudentId,
       name,
       fathername,
@@ -59,13 +77,12 @@ const createStudent = async (req, res) => {
     });
 
     const student = await newStudent.save();
-
     const token = student.generateAuthToken();
 
     res.status(201).json({ student, token });
   } catch (error) {
     console.error(error);
-    res.status(500).json(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 

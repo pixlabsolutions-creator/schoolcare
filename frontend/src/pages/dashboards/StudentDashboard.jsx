@@ -15,7 +15,7 @@ const StudentDashboard = () => {
   const { fetchHomeworksByClassForStudent, studentHomeworkByClass } =
     useHomework();
   const { anouncements } = useAnouncement();
-  const { fetchNewsBySchool, newsBySchool } = useNews();
+  const { fetchNewsBySchool, allNews } = useNews();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -373,9 +373,9 @@ const StudentDashboard = () => {
             </h3>
           </div>
 
-          {newsBySchool && newsBySchool.length > 0 ? (
+          {allNews && allNews.length > 0 ? (
             <div className="grid grid-cols-3 gap-4">
-              {newsBySchool.map((s, i) => (
+              {allNews.map((s, i) => (
                 <Link
                   to={`news/${s._id}`}
                   className="col-span-1 flex flex-col space-y-4 border border-blue-100 p-4 rounded-2xl"
@@ -421,9 +421,9 @@ const StudentDashboard = () => {
             </h3>
           </div>
 
-          {newsBySchool && newsBySchool.length > 0 ? (
+          {allNews && allNews.length > 0 ? (
             <div className="flex flex-col items-center justify-between space-y-2">
-              {newsBySchool.map((s, i) => (
+              {allNews.map((s, i) => (
                 <Link
                   to={`news/${s._id}`}
                   className=" flex flex-row items-center justify-start space-x-4  p-2 rounded-[12px] bg-white"

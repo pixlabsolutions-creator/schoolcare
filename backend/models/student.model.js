@@ -8,8 +8,10 @@ const studentSchema = new mongoose.Schema(
   {
     image: {
       type: String,
-      default: "",
+      default:
+        "https://res.cloudinary.com/doyhiacif/image/upload/v1768996682/student/czlfalxwiggwakk9ia7t.png",
     },
+
     studentId: {
       type: String,
       required: true,
