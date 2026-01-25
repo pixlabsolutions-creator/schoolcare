@@ -5,7 +5,7 @@ import Splash from "../pages/Splash";
 const AdminRoleCheckRoute = ({ allowedRoles, children }) => {
   const { admin, loading } = useAdmin();
 
-  if (loading) return <Splash loading={loading} />;
+  // if (loading) return <Splash loading={loading} />;
 
   if (!admin || !allowedRoles.includes(admin.role)) {
     return <Navigate to="/admin/login" replace />;

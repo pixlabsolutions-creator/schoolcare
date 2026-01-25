@@ -6,7 +6,7 @@ const RoleBasedRoute = ({ allowedRoles, children }) => {
   const { user, loading, setLoading } = useAuth();
   const location = useLocation();
 
-  if (loading) return <Splash loading={loading} />;
+  // if (loading) return <Splash loading={loading} />;
 
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
