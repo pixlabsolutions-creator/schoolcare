@@ -29,8 +29,6 @@ export const AuthProvider = ({ children }) => {
         setAllTeachers(data);
       } catch (err) {
         setAllTeachers(null);
-      } finally {
-        setLoading(false);
       }
     };
     fetchTeachersByAdmin();
@@ -49,8 +47,6 @@ export const AuthProvider = ({ children }) => {
       setTeachers(data);
     } catch (err) {
       setTeachers(null);
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -60,22 +60,8 @@ import AdminRoleCheckRoute from "./middleware/AdminRoleCheckRoute";
 import News from "./components/News";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return <Splash loading={loading} setLoading={setLoading} />;
-  }
   return (
     <>
-      {" "}
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -155,17 +141,6 @@ function App() {
                                   />
                                 </Route>
 
-                                {/* ==================Author===================== */}
-                                {/* <Route
-                            path="/admin"
-                            element={
-                              <RoleBasedRoute allowedRoles={["author"]}>
-                                <AuthorLayout />
-                              </RoleBasedRoute>
-                            }
-                          >
-                            <Route index element={<AdminDashboard />} />
-                          </Route> */}
                                 {/* ================================================= */}
                                 {/* ==================Teacher===================== */}
                                 {/* ================================================= */}

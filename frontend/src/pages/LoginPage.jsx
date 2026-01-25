@@ -4,8 +4,19 @@ import { useAuth } from "../contexts/AuthContext";
 import SplashIcon from "../assets/splash.png";
 
 const LoginPage = () => {
-  const { user, userRole, login } = useAuth();
+  const { user, userRole, login, loading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && user && userRole) {
+      if (userRole === "teacher") navigate("/teacher", { replace: true });
+      else if (userRole === "student") navigate("/student", { replace: true });
+    }
+  }, [user, userRole, loading]);
+
+  if (loading) {
+    return <Splash />;
+  }
 
   const [formData, setFormData] = useState({
     studentId: "",
@@ -13,13 +24,6 @@ const LoginPage = () => {
     password: "",
     userRole: "student",
   });
-
-  useEffect(() => {
-    if (user && userRole) {
-      if (userRole === "teacher") navigate("/teacher", { replace: true });
-      else if (userRole === "student") navigate("/student", { replace: true });
-    }
-  }, [user, userRole, navigate]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
