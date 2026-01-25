@@ -22,9 +22,9 @@ const LoginPage = () => {
     }
   }, [user, userRole, loading]);
 
-  // if (loading) {
-  //   return <Splash />;
-  // }
+  if (loading) {
+    return <Splash />;
+  }
 
   const handleChange = (e) => {
     setFormData((prev) => ({
