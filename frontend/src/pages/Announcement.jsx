@@ -64,7 +64,7 @@ const Announcement = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <div className="lg:bg-white lg:pb-20 lg:min-h-screen rounded-2xl space-y-4">
         {/* ===== Header ===== */}
         <div className="flex flex-row items-center justify-between lg:px-4 lg:py-8 lg:border-b lg:border-gray-200">

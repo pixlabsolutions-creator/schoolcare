@@ -62,9 +62,9 @@ const AddAnnouncement = () => {
   };
 
   return (
-    <div className="flex flex-col lg:bg-white min-h-screen rounded-3xl space-y-4">
+    <div className="flex flex-col lg:bg-white rounded-3xl space-y-4">
       <div className="pt-2">
-        <Header title="Add Notice" />
+        <Header title="Add Notice" navigate={navigate} />
       </div>
 
       <form
@@ -102,17 +102,16 @@ const AddAnnouncement = () => {
 export default AddAnnouncement;
 
 /* ===== Helper Components ===== */
-const Header = ({ title }) => (
-  <div className="flex items-center  lg:px-6 lg:py-8 border-b border-gray-100 space-x-4">
-    <MoveLeft
-      onClick={() => window.history.back()}
-      className="cursor-pointer"
-    />
-    <h1 className="text-[17px] lg:text-[24px] font-semibold text-gray-800 ml-2">
-      {title}
-    </h1>
-  </div>
-);
+const Header = ({ title, navigate }) => {
+  return (
+    <div className="flex items-center  lg:px-6 lg:py-8 border-b border-gray-100 space-x-4">
+      <MoveLeft onClick={() => navigate(-1)} className="cursor-pointer" />
+      <h1 className="text-[17px] lg:text-[24px] font-semibold text-gray-800 ml-2">
+        {title}
+      </h1>
+    </div>
+  );
+};
 
 const InputField = ({ label, name, value, onChange, placeholder }) => (
   <div className="w-full lg:w-1/2">
