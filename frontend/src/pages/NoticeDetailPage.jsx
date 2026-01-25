@@ -21,7 +21,6 @@ const NoticeDetailPage = () => {
 
   const isLiked = anouncementsById?.like?.likerId?.includes(user?._id);
 
-  console.log(anouncementsById);
   return (
     <div className="lg:bg-white rounded-3xl lg:min-h-screen p-[15px]">
       {/* ===== Header ===== */}
