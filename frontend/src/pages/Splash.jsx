@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const Splash = () => {
   return (
-    <div className="flex flex-col w-screen h-screen items-center justify-center">
-      <div className="flex flex-col items-center justify-center space-y-3">
+    <div className="bg-white flex flex-col w-screen h-screen items-center justify-center">
+      <div className="w-60 lg:w-96">
         <img src={SplashIcon} alt="School Care" />
       </div>
     </div>
