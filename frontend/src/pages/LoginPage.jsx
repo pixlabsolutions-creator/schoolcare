@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import SplashIcon from "../assets/splash.png";
+import Splash from "./Splash";
 
 const LoginPage = () => {
   const { user, userRole, login, loading } = useAuth();
   const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    studentId: "",
+    userId: "",
+    password: "",
+    userRole: "student",
+  });
 
   useEffect(() => {
     if (!loading && user && userRole) {
@@ -17,13 +25,6 @@ const LoginPage = () => {
   if (loading) {
     return <Splash />;
   }
-
-  const [formData, setFormData] = useState({
-    studentId: "",
-    userId: "",
-    password: "",
-    userRole: "student",
-  });
 
   const handleChange = (e) => {
     setFormData((prev) => ({

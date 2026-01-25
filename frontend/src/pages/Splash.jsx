@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SplashIcon from "../assets/splash.png";
+import SplashIcon from "../assets/app.png";
 import { useNavigate } from "react-router-dom";
 
 const Splash = () => {
